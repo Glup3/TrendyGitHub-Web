@@ -20,7 +20,8 @@ export interface RepositoriesTable {
   name_with_owner: string
   star_count: number
   fork_count: number
-  primary_language: string
+  primary_language: string | undefined
+  description: string | undefined
   languages: string[]
   history_missing: boolean
 }
