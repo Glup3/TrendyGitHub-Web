@@ -1,5 +1,5 @@
-import { Pool } from 'pg'
 import { Kysely, PostgresDialect, Selectable } from 'kysely'
+import { Pool } from 'pg'
 
 export interface Database {
   repositories: RepositoriesTable
@@ -32,5 +32,4 @@ export const db = new Kysely<Database>({
       connectionString: process.env.DATABASE_URL,
     }),
   }),
-});
-
+})
