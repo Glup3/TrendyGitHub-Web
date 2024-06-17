@@ -27,6 +27,7 @@ async function getData(page: number, view: z.infer<typeof viewSchema>) {
 }
 
 type Props = {
+  params: {}
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
