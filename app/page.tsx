@@ -37,9 +37,18 @@ export default async function Home({ searchParams }: Props) {
   return (
     <main>
       <h1>Trending GitHub Repositories</h1>
-      {search.page > 1 && <Link className="mx-4" href={{ pathname: "/", query: { ...search, page: search.page - 1 } }}>Prev</Link>}
-      <span>{search.page}</span>
-      <Link className="mx-4" href={{ pathname: "/", query: { ...search, page: search.page + 1 } }}>Next</Link>
+
+      <div>
+        <Link className="mx-4" href={{ pathname: "/", query: { ...search, page: 1, view: 'daily' } }}>Daily</Link>
+        <Link className="mx-4" href={{ pathname: "/", query: { ...search, page: 1, view: 'weekly' } }}>Weekly</Link>
+        <Link className="mx-4" href={{ pathname: "/", query: { ...search, page: 1, view: 'monthly' } }}>Monthly</Link>
+      </div>
+
+      <div>
+        {search.page > 1 && <Link className="mx-4" href={{ pathname: "/", query: { ...search, page: search.page - 1 } }}>Prev</Link>}
+        <span>{search.page}</span>
+        <Link className="mx-4" href={{ pathname: "/", query: { ...search, page: search.page + 1 } }}>Next</Link>
+      </div>
       <ul>
         {res.map(repo => (<li key={repo.github_id}>{repo.stars_difference} - {repo.name_with_owner}</li>))}
       </ul>
