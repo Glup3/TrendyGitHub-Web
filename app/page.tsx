@@ -1,3 +1,4 @@
+import { ModeToggle } from '@/components/ModeToggle'
 import { db } from '@/db/client'
 import Link from 'next/link'
 import { z } from 'zod'
@@ -61,6 +62,8 @@ export default async function Home({ searchParams }: Props) {
         >
           Monthly
         </Link>
+
+        <ModeToggle />
       </div>
 
       <div>
@@ -80,13 +83,14 @@ export default async function Home({ searchParams }: Props) {
           Next
         </Link>
       </div>
-      <ul>
+
+      <div>
         {res.map((repo) => (
-          <li key={repo.github_id}>
+          <div key={repo.github_id}>
             {repo.stars_difference} - {repo.name_with_owner}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </main>
   )
 }
