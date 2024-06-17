@@ -6,7 +6,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Trendy GitHub",
+  title: "Trending GitHub Repositories",
   description: "Trending GitHub repositories based on stars",
 };
 
