@@ -1,4 +1,5 @@
 import { ModeToggle } from '@/components/ModeToggle'
+import NumberTicker from '@/components/magicui/NumberTicker'
 import { db } from '@/db/client'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Link from 'next/link'
@@ -130,7 +131,7 @@ export default async function Home({ searchParams }: Props) {
             <div className="ml-auto flex items-center gap-1 self-center pl-4">
               <Triangle size={18} />
               <Star size={18} />
-              {repo.stars_difference.toLocaleString()}
+              <NumberTicker value={repo.stars_difference} />
             </div>
           </div>
         ))}
