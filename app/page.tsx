@@ -3,6 +3,7 @@ import NumberTicker from '@/components/magicui/NumberTicker'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { db } from '@/db/client'
 import { AlertCircle, GitFork, Star, Triangle } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { z } from 'zod'
 
@@ -104,9 +105,16 @@ export default async function Home({ searchParams }: Props) {
       </div>
 
       <div className="border-4">
-        {res.map((repo, index) => (
+        {res.map((repo) => (
           <div key={repo.github_id} className="flex border-t-4 p-4 first:border-t-0">
-            <div className="mr-4 self-center">{(search.page - 1) * perPage + index + 1}</div>
+            <Image
+              src={`https://github.com/${repo.name_with_owner.split('/')[0]}.png`}
+              alt={`GitHub User Profile ${repo.name_with_owner}`}
+              width="0"
+              height="0"
+              className="mr-4 self-center w-[40px] h-[40px]"
+              unoptimized
+            />
 
             <div className="flex flex-col">
               <div>
