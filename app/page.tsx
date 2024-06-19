@@ -128,10 +128,12 @@ export default async function Home({ searchParams }: Props) {
               </div>
             </div>
 
-            <div className="ml-auto flex items-center gap-1 self-center pl-4">
-              <Triangle size={18} />
-              <Star size={18} />
-              <NumberTicker value={repo.stars_difference} />
+            <div className="ml-auto flex flex-col items-center justify-center pl-4">
+              <Triangle size={20} fill="currentColor" />
+
+              <div className="mt-2 flex w-[68px] justify-center">
+                <NumberTicker key={`${repo.github_id}-${search.view}`} value={repo.stars_difference} />
+              </div>
             </div>
           </div>
         ))}
