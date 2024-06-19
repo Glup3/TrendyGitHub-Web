@@ -1,7 +1,8 @@
 import { ModeToggle } from '@/components/ModeToggle'
 import NumberTicker from '@/components/magicui/NumberTicker'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { db } from '@/db/client'
-import { GitFork, Star, Triangle } from 'lucide-react'
+import { AlertCircle, GitFork, Star, Triangle } from 'lucide-react'
 import Link from 'next/link'
 import { z } from 'zod'
 
@@ -48,50 +49,58 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <main className="container mx-auto">
-      <h1>Trending GitHub Repositories</h1>
+      <Alert className="my-4">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Maintenance</AlertTitle>
+        <AlertDescription>The database is currently in maintenance mode and data is incomplete.</AlertDescription>
+      </Alert>
 
-      <div>
-        <Link className="mx-4" href={{ pathname: '/', query: { ...search, page: 1, view: 'daily' } }}>
-          Daily
-        </Link>
-        <Link
-          className="mx-4"
-          href={{
-            pathname: '/',
-            query: { ...search, page: 1, view: 'weekly' },
-          }}
-        >
-          Weekly
-        </Link>
-        <Link
-          className="mx-4"
-          href={{
-            pathname: '/',
-            query: { ...search, page: 1, view: 'monthly' },
-          }}
-        >
-          Monthly
-        </Link>
+      <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
-        <ModeToggle />
-      </div>
+      <div className="my-2 flex justify-between">
+        <div className="flex items-center">
+          {search.page > 1 && (
+            <Link
+              className="mx-4"
+              href={{
+                pathname: '/',
+                query: { ...search, page: search.page - 1 },
+              }}
+            >
+              Prev
+            </Link>
+          )}
+          <span>{search.page}</span>
+          <Link className="mx-4" href={{ pathname: '/', query: { ...search, page: search.page + 1 } }}>
+            Next
+          </Link>
+        </div>
 
-      <div>
-        {search.page > 1 && (
+        <div className="flex items-center">
+          <Link className="mx-4" href={{ pathname: '/', query: { ...search, page: 1, view: 'daily' } }}>
+            Daily
+          </Link>
           <Link
             className="mx-4"
             href={{
               pathname: '/',
-              query: { ...search, page: search.page - 1 },
+              query: { ...search, page: 1, view: 'weekly' },
             }}
           >
-            Prev
+            Weekly
           </Link>
-        )}
-        <span>{search.page}</span>
-        <Link className="mx-4" href={{ pathname: '/', query: { ...search, page: search.page + 1 } }}>
-          Next
-        </Link>
+          <Link
+            className="mx-4"
+            href={{
+              pathname: '/',
+              query: { ...search, page: 1, view: 'monthly' },
+            }}
+          >
+            Monthly
+          </Link>
+
+          <ModeToggle />
+        </div>
       </div>
 
       <div className="border-4">
