@@ -1,4 +1,5 @@
 import { ModeToggle } from '@/components/ModeToggle'
+import { SimplePagination } from '@/components/SimplePagination'
 import NumberTicker from '@/components/magicui/NumberTicker'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { db } from '@/db/client'
@@ -20,7 +21,7 @@ const perPage = 50
 async function getData(page: number, view: z.infer<typeof viewSchema>) {
   const table = view === 'daily' ? 'mv_daily_stars' : view === 'weekly' ? 'mv_weekly_stars' : 'mv_monthly_stars'
 
-  return await db
+  const query = db
     .selectFrom(`${table} as mv_stars_history`)
     .innerJoin('repositories', 'repositories.id', 'mv_stars_history.repository_id')
     .select([
@@ -36,7 +37,17 @@ async function getData(page: number, view: z.infer<typeof viewSchema>) {
     .orderBy('repository_id')
     .limit(perPage)
     .offset(Math.round(pageSchema.parse(page) - 1) * perPage)
-    .execute()
+
+  const queryTotal = db
+    .selectFrom(`${table} as mv_stars_history`)
+    .select(({ fn }) => [fn.countAll<number>().as('total')])
+
+  const [res, total] = await Promise.all([query.execute(), queryTotal.execute()])
+
+  return {
+    repositories: res,
+    totalCount: total,
+  }
 }
 
 type Props = {
@@ -58,25 +69,7 @@ export default async function Home({ searchParams }: Props) {
 
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
-      <div className="my-2 flex justify-between">
-        <div className="flex items-center">
-          {search.page > 1 && (
-            <Link
-              className="mx-4"
-              href={{
-                pathname: '/',
-                query: { ...search, page: search.page - 1 },
-              }}
-            >
-              Prev
-            </Link>
-          )}
-          <span>{search.page}</span>
-          <Link className="mx-4" href={{ pathname: '/', query: { ...search, page: search.page + 1 } }}>
-            Next
-          </Link>
-        </div>
-
+      <div className="my-2 flex justify-end">
         <div className="flex items-center">
           <Link className="mx-4" href={{ pathname: '/', query: { ...search, page: 1, view: 'daily' } }}>
             Daily
@@ -105,14 +98,14 @@ export default async function Home({ searchParams }: Props) {
       </div>
 
       <div className="border-4">
-        {res.map((repo) => (
+        {res.repositories.map((repo) => (
           <div key={repo.github_id} className="flex border-t-4 p-4 first:border-t-0">
             <Image
               src={`https://github.com/${repo.name_with_owner.split('/')[0]}.png`}
               alt={`GitHub User Profile ${repo.name_with_owner}`}
               width="0"
               height="0"
-              className="mr-4 self-center w-[40px] h-[40px]"
+              className="mr-4 h-[40px] w-[40px] self-center"
               unoptimized
             />
 
@@ -155,6 +148,14 @@ export default async function Home({ searchParams }: Props) {
           </div>
         ))}
       </div>
+
+      <SimplePagination
+        className="my-4"
+        currentPage={search.page}
+        totalCount={res.totalCount[0]?.total ?? 0}
+        perPage={perPage}
+        getPageHref={(newPage) => ({ pathname: '/', query: { ...search, page: newPage } })}
+      />
     </main>
   )
 }
