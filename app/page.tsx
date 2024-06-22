@@ -1,8 +1,9 @@
 import { ModeToggle } from '@/components/ModeToggle'
 import { SimplePagination } from '@/components/SimplePagination'
+import { TopTrendingWidgets } from '@/components/TopTrendingWidgets'
 import NumberTicker from '@/components/magicui/NumberTicker'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { getStarsRankingQuery, getTotalStarsRankingQuery } from '@/db/queries'
+import { HistoryTable, getStarsRankingQuery, getTotalStarsRankingQuery } from '@/db/queries'
 import { AlertCircle, GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,8 +19,7 @@ const searchSchema = z.object({
 const perPage = 50
 
 // 1-based index
-async function getData(page: number, view: z.infer<typeof viewSchema>) {
-  const table = view === 'daily' ? 'mv_daily_stars' : view === 'weekly' ? 'mv_weekly_stars' : 'mv_monthly_stars'
+async function getData(page: number, table: HistoryTable) {
   const offset = Math.round(pageSchema.parse(page) - 1) * perPage
 
   const query = getStarsRankingQuery({ table, perPage, offset })
@@ -40,25 +40,32 @@ type Props = {
 
 export default async function Home({ searchParams }: Props) {
   const search = searchSchema.parse(searchParams)
-  const res = await getData(search.page, search.view)
+  const table = viewToTable(search.view)
+
+  const res = await getData(search.page, table)
 
   return (
     <main className="container mx-auto">
       <Alert className="my-4">
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Maintenance</AlertTitle>
-        <AlertDescription>The database is currently in maintenance mode and data is incomplete.</AlertDescription>
+        <AlertDescription>
+          This project is heavily under construction and not really production ready. The database is currently in
+          maintenance mode and data is incomplete.
+        </AlertDescription>
       </Alert>
 
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
-      <div className="my-2 flex justify-end">
-        <div className="flex items-center">
-          <Link className="mx-4" href={{ pathname: '/', query: { ...search, page: 1, view: 'daily' } }}>
+      <div className="my-4 flex flex-col justify-between sm:flex-row sm:items-center">
+        <h2 className="text-2xl font-bold">Top Trending</h2>
+
+        <div className="flex items-center mt-2 sm:mt-0">
+          <Link className="pr-4" href={{ pathname: '/', query: { ...search, page: 1, view: 'daily' } }}>
             Daily
           </Link>
           <Link
-            className="mx-4"
+            className="px-4"
             href={{
               pathname: '/',
               query: { ...search, page: 1, view: 'weekly' },
@@ -67,7 +74,7 @@ export default async function Home({ searchParams }: Props) {
             Weekly
           </Link>
           <Link
-            className="mx-4"
+            className="px-4"
             href={{
               pathname: '/',
               query: { ...search, page: 1, view: 'monthly' },
@@ -79,6 +86,10 @@ export default async function Home({ searchParams }: Props) {
           <ModeToggle />
         </div>
       </div>
+
+      <TopTrendingWidgets table={table} />
+
+      <h2 className="mb-4 mt-8 text-2xl font-bold">Trending {viewToTitle(search.view)}</h2>
 
       <div className="border-4">
         {res.repositories.map((repo) => (
@@ -98,15 +109,15 @@ export default async function Home({ searchParams }: Props) {
                   href={`https://github.com/${repo.name_with_owner}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-lg font-semibold text-blue-700 hover:underline dark:text-blue-500"
+                  className="break-all text-lg font-semibold text-blue-700 hover:underline dark:text-blue-500"
                 >
                   {repo.name_with_owner}
                 </a>
               </div>
 
-              <span className="text-sm dark:text-gray-400">{repo.description ?? ''}</span>
+              <span className="break-all line-clamp-3 text-sm dark:text-gray-400">{repo.description ?? ''}</span>
 
-              <div className="flex gap-4">
+              <div className="mt-2 flex flex-col sm:flex-row sm:gap-4">
                 {repo.primary_language && <span>{repo.primary_language}</span>}
 
                 <div className="flex items-center gap-1">
@@ -125,7 +136,7 @@ export default async function Home({ searchParams }: Props) {
               <Triangle size={20} fill="currentColor" />
 
               <div className="mt-2 flex w-[68px] justify-center">
-                <NumberTicker key={`${repo.github_id}-${search.view}`} value={repo.stars_difference} />
+                <NumberTicker key={`${repo.github_id}-${search.view}`} value={repo.stars_difference} className="h-6" />
               </div>
             </div>
           </div>
@@ -141,4 +152,30 @@ export default async function Home({ searchParams }: Props) {
       />
     </main>
   )
+}
+
+function viewToTable(view: z.infer<typeof viewSchema>) {
+  switch (view) {
+    case 'daily':
+      return 'mv_daily_stars'
+    case 'weekly':
+      return 'mv_weekly_stars'
+    case 'monthly':
+      return 'mv_monthly_stars'
+    default:
+      return 'mv_daily_stars'
+  }
+}
+
+function viewToTitle(view: z.infer<typeof viewSchema>) {
+  switch (view) {
+    case 'daily':
+      return 'Daily'
+    case 'weekly':
+      return 'Weekly'
+    case 'monthly':
+      return 'Monthly'
+    default:
+      return 'Daily'
+  }
 }

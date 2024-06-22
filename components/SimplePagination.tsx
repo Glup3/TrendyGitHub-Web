@@ -9,7 +9,7 @@ import {
 } from './ui/pagination'
 import React from 'react'
 
-const MAX_VISIBLE_PAGES = 5
+const MAX_VISIBLE_PAGES = 3
 
 export const SimplePagination = ({
   className,

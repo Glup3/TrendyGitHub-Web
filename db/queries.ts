@@ -1,6 +1,6 @@
 import { db } from './client'
 
-type HistoryTable = 'mv_daily_stars' | 'mv_weekly_stars' | 'mv_monthly_stars'
+export type HistoryTable = 'mv_daily_stars' | 'mv_weekly_stars' | 'mv_monthly_stars'
 
 export const getStarsRankingQuery = (vars: { table: HistoryTable; perPage: number; offset: number }) => {
   return db
