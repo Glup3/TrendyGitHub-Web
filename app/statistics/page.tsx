@@ -1,4 +1,6 @@
 import { db } from '@/db/client'
+import { getFlag } from '@/lib/unleash'
+import { notFound } from 'next/navigation'
 
 const getData = async () => {
   const query1 = await db
@@ -35,6 +37,12 @@ const getData = async () => {
 }
 
 export default async function StatisticsPage() {
+  const isEnabled = await getFlag('tgh-enable-statistics')
+
+  if (!isEnabled) {
+    notFound()
+  }
+
   const statistics = await getData()
 
   return (
