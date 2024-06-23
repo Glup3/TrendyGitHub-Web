@@ -16,6 +16,7 @@
     "@unleash/nextjs": "^1.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.11",
     "framer-motion": "^11.2.10",
     "kysely": "^0.27.3",
     "lucide-react": "^0.395.0",

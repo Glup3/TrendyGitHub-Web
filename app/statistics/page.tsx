@@ -1,5 +1,6 @@
 import { StatisticsWidget } from '@/components/StatisticsWidget'
 import { db } from '@/db/client'
+import { Timeframe, getPageStats } from '@/lib/umami'
 import { getFlag } from '@/lib/unleash'
 import { notFound } from 'next/navigation'
 
@@ -65,6 +66,31 @@ export default async function StatisticsPage() {
         <StatisticsWidget title="Estimated Loading" value={`~ ${Math.ceil(statistics.estimatedHours)} hours`} />
         <StatisticsWidget title="Estimated Loading" value={`~ ${Math.ceil(statistics.estimatedDays)} days`} />
       </div>
+
+      <h2 className="text-2xl font-bold my-4">24 Hour Stats</h2>
+      <UmamiStatisticsWidgets timeframe="24h" />
+
+      <h2 className="text-2xl font-bold my-4">7 Days Stats</h2>
+      <UmamiStatisticsWidgets timeframe="7d" />
+
+      <h2 className="text-2xl font-bold my-4">30 Days Stats</h2>
+      <UmamiStatisticsWidgets timeframe="30d" />
     </main>
+  )
+}
+
+const UmamiStatisticsWidgets = async ({ timeframe }: { timeframe: Timeframe }) => {
+  const stats = await getPageStats(timeframe)
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <StatisticsWidget title="Views" value={stats.pageviews.value.toLocaleString()} />
+      <StatisticsWidget title="Visits" value={stats.visits.value.toLocaleString()} />
+      <StatisticsWidget title="Visitors" value={stats.visitors.value.toLocaleString()} />
+      <StatisticsWidget
+        title="Average Visit Time"
+        value={`${(stats.totaltime.value / stats.visits.value).toLocaleString()} sec`}
+      />
+    </div>
   )
 }
