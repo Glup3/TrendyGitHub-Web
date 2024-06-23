@@ -48,6 +48,8 @@ export default async function Home({ searchParams }: Props) {
     <main className="container mx-auto">
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
+      <Link href="/statistics">Statistics</Link>
+
       <div className="my-4 flex flex-col justify-between sm:flex-row sm:items-center">
         <h2 className="text-2xl font-bold">Top Trending</h2>
 
