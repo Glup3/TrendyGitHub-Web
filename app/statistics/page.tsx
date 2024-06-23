@@ -1,3 +1,4 @@
+import { StatisticsWidget } from '@/components/StatisticsWidget'
 import { db } from '@/db/client'
 import { getFlag } from '@/lib/unleash'
 import { notFound } from 'next/navigation'
@@ -47,13 +48,23 @@ export default async function StatisticsPage() {
 
   return (
     <main className="container mx-auto">
-      <div>{statistics.totalRepositories} Repositories</div>
-      <div>{statistics.maxStarCount} Max Stars</div>
-      <div>{statistics.minStarCount} Min Stars</div>
-      <div>{statistics.totalMissingHistoryRepositories} Missing Repositories</div>
-      <div>{statistics.totalMissingHistoryStarCount} Sum Missing Stars</div>
-      <div>~ {Math.ceil(statistics.estimatedHours)} hours left</div>
-      <div>~ {Math.ceil(statistics.estimatedDays)} days left</div>
+      <h1 className="text-3xl font-bold mb-4">Statistics</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <StatisticsWidget title="Total Repositories" value={statistics.totalRepositories.toLocaleString()} />
+        <StatisticsWidget title="Most Stars" value={statistics.maxStarCount.toLocaleString()} />
+        <StatisticsWidget title="Least Stars" value={statistics.minStarCount.toLocaleString()} />
+      </div>
+
+      <h2 className="text-2xl font-bold my-4">Missing Star History</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <StatisticsWidget title="Missing Stars" value={statistics.totalMissingHistoryStarCount.toLocaleString()} />
+        <StatisticsWidget
+          title="Missing Histories"
+          value={statistics.totalMissingHistoryRepositories.toLocaleString()}
+        />
+        <StatisticsWidget title="Estimated Loading" value={`~ ${Math.ceil(statistics.estimatedHours)} hours`} />
+        <StatisticsWidget title="Estimated Loading" value={`~ ${Math.ceil(statistics.estimatedDays)} days`} />
+      </div>
     </main>
   )
 }
