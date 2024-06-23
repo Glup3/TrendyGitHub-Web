@@ -46,15 +46,6 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <main className="container mx-auto">
-      <Alert className="my-4">
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Maintenance</AlertTitle>
-        <AlertDescription>
-          This project is heavily under construction and not really production ready. The database is currently in
-          maintenance mode and data is incomplete.
-        </AlertDescription>
-      </Alert>
-
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
       <div className="my-4 flex flex-col justify-between sm:flex-row sm:items-center">

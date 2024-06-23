@@ -1,5 +1,7 @@
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertCircle } from 'lucide-react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
@@ -37,6 +39,17 @@ export default function RootLayout({
 
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <div className="container">
+            <Alert className="my-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Maintenance</AlertTitle>
+              <AlertDescription>
+                This project is heavily under construction and not really production ready. The database is currently in
+                maintenance mode and data is incomplete.
+              </AlertDescription>
+            </Alert>
+          </div>
+
           {children}
         </ThemeProvider>
       </body>
