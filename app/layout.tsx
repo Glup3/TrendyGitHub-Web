@@ -1,4 +1,5 @@
 import './globals.css'
+import { Navbar } from '@/components/Navbar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
@@ -53,6 +54,8 @@ export default function RootLayout({
 
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <Navbar />
+
           <div className="container">
             <Alert className="my-4">
               <AlertCircle className="h-4 w-4" />

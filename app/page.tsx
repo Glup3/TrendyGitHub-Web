@@ -1,10 +1,8 @@
-import { ModeToggle } from '@/components/ModeToggle'
 import { SimplePagination } from '@/components/SimplePagination'
 import { TopTrendingWidgets } from '@/components/TopTrendingWidgets'
 import NumberTicker from '@/components/magicui/NumberTicker'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { HistoryTable, getStarsRankingQuery, getTotalStarsRankingQuery } from '@/db/queries'
-import { AlertCircle, GitFork, Star, Triangle } from 'lucide-react'
+import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { z } from 'zod'
@@ -45,10 +43,8 @@ export default async function Home({ searchParams }: Props) {
   const res = await getData(search.page, table)
 
   return (
-    <main className="container mx-auto">
+    <main className="container">
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
-
-      <Link href="/statistics">Statistics</Link>
 
       <div className="my-4 flex flex-col justify-between sm:flex-row sm:items-center">
         <h2 className="text-2xl font-bold">Top Trending</h2>
@@ -75,8 +71,6 @@ export default async function Home({ searchParams }: Props) {
           >
             Monthly
           </Link>
-
-          <ModeToggle />
         </div>
       </div>
 
