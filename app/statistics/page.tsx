@@ -9,8 +9,9 @@ const getData = async () => {
     .selectFrom('repositories')
     .select(({ fn }) => [
       fn.countAll<number>('repositories').as('totalRepositories'),
-      fn.max('star_count').as('maxStarCount'),
-      fn.min('star_count').as('minStarCount'),
+      fn.max<number>('star_count').as('maxStarCount'),
+      fn.min<number>('star_count').as('minStarCount'),
+      fn.avg('star_count').as('avgStarCount'),
     ])
     .execute()
 
@@ -28,11 +29,12 @@ const getData = async () => {
   const estimatedDays = estimatedHours / 24
 
   return {
-    totalRepositories: query1[0]?.totalRepositories,
+    totalRepositories: Number(query1[0]?.totalRepositories),
     maxStarCount: query1[0]?.maxStarCount,
     minStarCount: query1[0]?.minStarCount,
-    totalMissingHistoryRepositories: query2[0]?.totalMissingHistoryRepositories,
-    totalMissingHistoryStarCount: totalMissingHistoryStarCount,
+    avgStarCount: Number(query1[0]?.avgStarCount),
+    totalMissingHistoryRepositories: Number(query2[0]?.totalMissingHistoryRepositories),
+    totalMissingHistoryStarCount: Number(totalMissingHistoryStarCount),
     estimatedHours: estimatedHours,
     estimatedDays: estimatedDays,
   }
@@ -51,9 +53,13 @@ export default async function StatisticsPage() {
     <main className="container mx-auto">
       <h1 className="text-3xl font-bold mb-4">Statistics</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <StatisticsWidget title="Total Repositories" value={statistics.totalRepositories.toLocaleString()} />
+        <StatisticsWidget title="Total Repositories" value={statistics.totalRepositories.toLocaleString('en-US')} />
         <StatisticsWidget title="Most Stars" value={statistics.maxStarCount.toLocaleString()} />
         <StatisticsWidget title="Least Stars" value={statistics.minStarCount.toLocaleString()} />
+        <StatisticsWidget
+          title="Average Stars"
+          value={statistics.avgStarCount.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+        />
       </div>
 
       <h2 className="text-2xl font-bold my-4">Missing Star History</h2>
