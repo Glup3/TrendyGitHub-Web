@@ -142,7 +142,7 @@ export default async function Home({ searchParams }: Props) {
             </div>
 
             <div className="ml-auto items-center flex pl-4">
-              <div className="w-16 h-16 border">
+              <div className="w-16 h-16">
                 <SimpleStarHistoryChart data={histories.get(repo.id) ?? []} />
               </div>
 
