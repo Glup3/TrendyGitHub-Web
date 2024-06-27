@@ -1,7 +1,8 @@
 import { SimplePagination } from '@/components/SimplePagination'
+import { SimpleStarHistoryChart } from '@/components/SimpleStarHistoryChart'
 import { TopTrendingWidgets } from '@/components/TopTrendingWidgets'
 import NumberTicker from '@/components/magicui/NumberTicker'
-import { HistoryTable, getStarsRankingQuery, getTotalStarsRankingQuery } from '@/db/queries'
+import { HistoryTable, getMonthlyStarHistories, getStarsRankingQuery, getTotalStarsRankingQuery } from '@/db/queries'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -31,6 +32,25 @@ async function getData(page: number, table: HistoryTable) {
   }
 }
 
+async function getHistories(repoIds: number[]) {
+  const histories = await getMonthlyStarHistories(repoIds).execute()
+  const repoMap = new Map<number, { date: Date; starCount: number }[]>()
+
+  for (const starHistory of histories) {
+    const id = starHistory.repository_id
+    if (!repoMap.has(id)) {
+      repoMap.set(id, [])
+    }
+
+    const repoHistory = repoMap.get(id)
+    if (repoHistory) {
+      repoHistory.push({ date: starHistory.created_at, starCount: starHistory.star_count })
+    }
+  }
+
+  return repoMap
+}
+
 type Props = {
   params: {}
   searchParams: { [key: string]: string | string[] | undefined }
@@ -41,6 +61,8 @@ export default async function Home({ searchParams }: Props) {
   const table = viewToTable(search.view)
 
   const res = await getData(search.page, table)
+
+  const histories = await getHistories(res.repositories.map((repo) => repo.id))
 
   return (
     <main className="container">
@@ -119,11 +141,21 @@ export default async function Home({ searchParams }: Props) {
               </div>
             </div>
 
-            <div className="ml-auto flex flex-col items-center justify-center pl-4">
-              <Triangle size={20} fill="currentColor" />
+            <div className="ml-auto items-center flex pl-4">
+              <div className="w-16 h-16 border">
+                <SimpleStarHistoryChart data={histories.get(repo.id) ?? []} />
+              </div>
 
-              <div className="mt-2 flex w-[68px] justify-center">
-                <NumberTicker key={`${repo.github_id}-${search.view}`} value={repo.stars_difference} className="h-6" />
+              <div className="flex flex-col items-center">
+                <Triangle size={20} fill="currentColor" />
+
+                <div className="mt-2 flex w-[68px] justify-center">
+                  <NumberTicker
+                    key={`${repo.github_id}-${search.view}`}
+                    value={repo.stars_difference}
+                    className="h-6"
+                  />
+                </div>
               </div>
             </div>
           </div>
