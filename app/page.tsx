@@ -1,19 +1,13 @@
 import { SimplePagination } from '@/components/SimplePagination'
 import { SimpleStarHistoryChart } from '@/components/SimpleStarHistoryChart'
 import { TopTrendingWidgets } from '@/components/TopTrendingWidgets'
+import { TrendingFilter } from '@/components/TrendingFilter'
 import NumberTicker from '@/components/magicui/NumberTicker'
 import { HistoryTable, getMonthlyStarHistories, getStarsRankingQuery, getTotalStarsRankingQuery } from '@/db/queries'
+import { pageSchema, searchSchema, viewSchema } from '@/lib/schemas'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { z } from 'zod'
-
-const pageSchema = z.coerce.number().int().positive().catch(1)
-const viewSchema = z.enum(['daily', 'weekly', 'monthly'])
-const searchSchema = z.object({
-  page: pageSchema,
-  view: viewSchema.catch('daily'),
-})
 
 const perPage = 50
 
@@ -68,32 +62,10 @@ export default async function Home({ searchParams }: Props) {
     <main className="container">
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
-      <div className="my-4 flex flex-col justify-between sm:flex-row sm:items-center">
+      <div className="my-4 flex justify-between items-center">
         <h2 className="text-2xl font-bold">Top Trending</h2>
 
-        <div className="flex items-center mt-2 sm:mt-0">
-          <Link className="pr-4" href={{ pathname: '/', query: { ...search, page: 1, view: 'daily' } }}>
-            Daily
-          </Link>
-          <Link
-            className="px-4"
-            href={{
-              pathname: '/',
-              query: { ...search, page: 1, view: 'weekly' },
-            }}
-          >
-            Weekly
-          </Link>
-          <Link
-            className="px-4"
-            href={{
-              pathname: '/',
-              query: { ...search, page: 1, view: 'monthly' },
-            }}
-          >
-            Monthly
-          </Link>
-        </div>
+        <TrendingFilter />
       </div>
 
       <TopTrendingWidgets table={table} />
