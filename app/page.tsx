@@ -3,7 +3,13 @@ import { SimpleStarHistoryChart } from '@/components/SimpleStarHistoryChart'
 import { TopTrendingWidgets } from '@/components/TopTrendingWidgets'
 import { TrendingFilter } from '@/components/TrendingFilter'
 import NumberTicker from '@/components/magicui/NumberTicker'
-import { HistoryTable, getMonthlyStarHistories, getStarsRankingQuery, getTotalStarsRankingQuery } from '@/db/queries'
+import {
+  HistoryTable,
+  getLanguages,
+  getMonthlyStarHistories,
+  getStarsRankingQuery,
+  getTotalStarsRankingQuery,
+} from '@/db/queries'
 import { pageSchema, searchSchema, viewSchema } from '@/lib/schemas'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
@@ -12,23 +18,34 @@ import { z } from 'zod'
 const perPage = 50
 
 // 1-based index
-async function getData(page: number, table: HistoryTable) {
+async function getData(page: number, language: string | undefined, table: HistoryTable) {
   const offset = Math.round(pageSchema.parse(page) - 1) * perPage
 
-  const query = getStarsRankingQuery({ table, perPage, offset })
+  const query = getStarsRankingQuery({ table, perPage, offset, language })
   const queryTotal = getTotalStarsRankingQuery(table)
+  const queryLanguages = getLanguages()
 
-  const [res, total] = await Promise.all([query.execute(), queryTotal.execute()])
+  const start = performance.now()
+  const [res, total, languages] = await Promise.all([query.execute(), queryTotal.execute(), queryLanguages.execute()])
+  const end = performance.now()
+
+  console.log('time', end - start)
 
   return {
     repositories: res,
     totalCount: total[0]?.total ?? 0,
+    languages: languages,
   }
 }
 
 async function getHistories(repoIds: number[]) {
-  const histories = await getMonthlyStarHistories(repoIds).execute()
   const repoMap = new Map<number, { date: Date; starCount: number }[]>()
+
+  if (repoIds.length === 0) {
+    return repoMap
+  }
+
+  const histories = await getMonthlyStarHistories(repoIds).execute()
 
   for (const starHistory of histories) {
     const id = starHistory.repository_id
@@ -54,7 +71,7 @@ export default async function Home({ searchParams }: Props) {
   const search = searchSchema.parse(searchParams)
   const table = viewToTable(search.view)
 
-  const res = await getData(search.page, table)
+  const res = await getData(search.page, search.language, table)
 
   const histories = await getHistories(res.repositories.map((repo) => repo.id))
 
@@ -62,10 +79,13 @@ export default async function Home({ searchParams }: Props) {
     <main className="container">
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
-      <div className="my-4 flex justify-between items-center">
+      <div className="my-4 flex justify-between sm:items-center flex-col sm:flex-row">
         <h2 className="text-2xl font-bold">Top Trending</h2>
 
-        <TrendingFilter />
+        <TrendingFilter
+          language={search.language}
+          languages={res.languages.map((l) => ({ name: l.primary_language }))}
+        />
       </div>
 
       <TopTrendingWidgets table={table} />

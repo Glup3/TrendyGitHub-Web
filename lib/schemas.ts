@@ -5,4 +5,5 @@ export const viewSchema = z.enum(['daily', 'weekly', 'monthly']).catch('daily')
 export const searchSchema = z.object({
   page: pageSchema,
   view: viewSchema.catch('daily'),
+  language: z.string().optional(),
 })
