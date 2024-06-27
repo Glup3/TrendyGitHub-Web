@@ -71,7 +71,7 @@ export default async function RankingPage({ searchParams }: Props) {
               <span className="line-clamp-3 break-all text-sm dark:text-gray-400">{repo.description ?? ''}</span>
 
               <div className="mt-2 flex flex-col sm:flex-row sm:gap-4">
-                {repo.primary_language && <span>{repo.primary_language}</span>}
+                <span>{repo.primary_language ? repo.primary_language : 'README'}</span>
 
                 <div className="flex items-center gap-1">
                   <Star className="inline-block" size={16} />
