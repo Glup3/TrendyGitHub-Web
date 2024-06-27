@@ -1,7 +1,7 @@
 import { StatisticsWidget } from '@/components/StatisticsWidget'
 import { StarDistributionChart } from '@/components/statistics/StarDistributionChart'
 import { db } from '@/db/client'
-import { Timeframe, getPageStats } from '@/lib/umami'
+import { type Timeframe, getPageStats } from '@/lib/umami'
 import { getFlag } from '@/lib/unleash'
 import { sql } from 'kysely'
 import { notFound } from 'next/navigation'

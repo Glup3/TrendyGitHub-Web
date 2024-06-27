@@ -1,10 +1,16 @@
 import NumberTicker from './magicui/NumberTicker'
-import { HistoryTable, getStarsRankingQuery } from '@/db/queries'
+import { type HistoryTable, getStarsRankingQuery } from '@/db/queries'
 import { Triangle } from 'lucide-react'
 import Image from 'next/image'
 
-export const TopTrendingWidgets = async ({ table }: { table: HistoryTable }) => {
-  const repos = await getStarsRankingQuery({ table: table, offset: 0, perPage: 3 }).execute()
+export const TopTrendingWidgets = async ({
+  table,
+  language,
+}: {
+  table: HistoryTable
+  language: string | undefined
+}) => {
+  const repos = await getStarsRankingQuery({ table: table, offset: 0, perPage: 3, language: language }).execute()
 
   return (
     <div className="flex flex-col gap-4 md:flex-row">

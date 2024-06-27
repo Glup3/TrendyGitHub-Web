@@ -5,7 +5,7 @@ type UnleashFlag = 'tgh-enable-statistics'
 
 export const getFlag = async (flag: UnleashFlag) => {
   const cookieStore = cookies()
-  const sessionId = cookieStore.get('unleash-session-id')?.value || `${Math.floor(Math.random() * 1_000_000_000)}`
+  const sessionId = cookieStore.get('unleash-session-id')?.value ?? `${Math.floor(Math.random() * 1_000_000_000)}`
 
   const definitions = await getDefinitions({
     fetchOptions: {

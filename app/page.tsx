@@ -4,16 +4,16 @@ import { TopTrendingWidgets } from '@/components/TopTrendingWidgets'
 import { TrendingFilter } from '@/components/TrendingFilter'
 import NumberTicker from '@/components/magicui/NumberTicker'
 import {
-  HistoryTable,
+  type HistoryTable,
   getLanguages,
   getMonthlyStarHistories,
   getStarsRankingQuery,
   getTotalStarsRankingQuery,
 } from '@/db/queries'
-import { pageSchema, searchSchema, viewSchema } from '@/lib/schemas'
+import { pageSchema, searchSchema, type viewSchema } from '@/lib/schemas'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
-import { z } from 'zod'
+import { type z } from 'zod'
 
 const perPage = 50
 
@@ -63,8 +63,7 @@ async function getHistories(repoIds: number[]) {
 }
 
 type Props = {
-  params: {}
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Record<string, string | string[] | undefined>
 }
 
 export default async function Home({ searchParams }: Props) {
@@ -88,7 +87,7 @@ export default async function Home({ searchParams }: Props) {
         />
       </div>
 
-      <TopTrendingWidgets table={table} />
+      <TopTrendingWidgets table={table} language={search.language} />
 
       <h2 className="mb-4 mt-8 text-2xl font-bold">Trending {viewToTitle(search.view)}</h2>
 

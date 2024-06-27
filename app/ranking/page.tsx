@@ -5,8 +5,7 @@ import Image from 'next/image'
 import { z } from 'zod'
 
 type Props = {
-  params: {}
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Record<string, string | string[] | undefined>
 }
 
 const pageSchema = z.coerce.number().int().positive().catch(1)
