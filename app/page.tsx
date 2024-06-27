@@ -78,7 +78,7 @@ export default async function Home({ searchParams }: Props) {
     <main className="container">
       <h1 className="text-3xl font-bold">Trending GitHub Repositories</h1>
 
-      <div className="my-4 flex justify-between sm:items-center flex-col sm:flex-row">
+      <div className="my-4 flex flex-col justify-between sm:flex-row sm:items-center">
         <h2 className="text-2xl font-bold">Top Trending</h2>
 
         <TrendingFilter
@@ -115,7 +115,7 @@ export default async function Home({ searchParams }: Props) {
                 </a>
               </div>
 
-              <span className="break-all line-clamp-3 text-sm dark:text-gray-400">{repo.description ?? ''}</span>
+              <span className="line-clamp-3 break-all text-sm dark:text-gray-400">{repo.description ?? ''}</span>
 
               <div className="mt-2 flex flex-col sm:flex-row sm:gap-4">
                 {repo.primary_language && <span>{repo.primary_language}</span>}
@@ -132,8 +132,8 @@ export default async function Home({ searchParams }: Props) {
               </div>
             </div>
 
-            <div className="ml-auto items-center flex pl-4">
-              <div className="w-16 h-16">
+            <div className="ml-auto flex items-center pl-4">
+              <div className="h-16 w-16">
                 <SimpleStarHistoryChart data={histories.get(repo.id) ?? []} />
               </div>
 

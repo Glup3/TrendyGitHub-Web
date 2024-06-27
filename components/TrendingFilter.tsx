@@ -31,7 +31,7 @@ export const TrendingFilter = ({ language, languages }: Props) => {
   const router = useRouter()
 
   return (
-    <div className="flex sm:items-center justify-between sm:justify-normal sm:gap-4 mt-4 sm:mt-0">
+    <div className="mt-4 flex justify-between sm:mt-0 sm:items-center sm:justify-normal sm:gap-4">
       <ComboBoxResponsive language={language} languages={languages} />
 
       <Select

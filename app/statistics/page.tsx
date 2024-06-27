@@ -74,10 +74,10 @@ export default async function StatisticsPage() {
 
   return (
     <main className="container mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Statistics</h1>
+      <h1 className="mb-4 text-3xl font-bold">Statistics</h1>
 
-      <h2 className="text-2xl font-bold my-4">Repository Statistics</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <h2 className="my-4 text-2xl font-bold">Repository Statistics</h2>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
         <StatisticsWidget title="Total Repositories" value={statistics.totalRepositories.toLocaleString('en-US')} />
         <StatisticsWidget title="Most Stars" value={statistics.maxStarCount.toLocaleString()} />
         <StatisticsWidget title="Least Stars" value={statistics.minStarCount.toLocaleString()} />
@@ -86,14 +86,14 @@ export default async function StatisticsPage() {
           value={statistics.avgStarCount.toLocaleString('en-US', { maximumFractionDigits: 2 })}
         />
 
-        <div className="h-72 col-span-full border-2 p-3 rounded-2xl">
+        <div className="col-span-full h-72 rounded-2xl border-2 p-3">
           <span className="mb-2 block">Star Count Distribution</span>
           <StarDistributionChart data={statistics.starCountDistribution} />
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold my-4">Missing Star History</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <h2 className="my-4 text-2xl font-bold">Missing Star History</h2>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
         <StatisticsWidget title="Missing Stars" value={statistics.totalMissingHistoryStarCount.toLocaleString()} />
         <StatisticsWidget
           title="Missing Histories"
@@ -103,13 +103,13 @@ export default async function StatisticsPage() {
         <StatisticsWidget title="Estimated Loading" value={`~ ${Math.ceil(statistics.estimatedDays)} days`} />
       </div>
 
-      <h2 className="text-2xl font-bold my-4">24 Hour Stats</h2>
+      <h2 className="my-4 text-2xl font-bold">24 Hour Stats</h2>
       <UmamiStatisticsWidgets timeframe="24h" />
 
-      <h2 className="text-2xl font-bold my-4">7 Days Stats</h2>
+      <h2 className="my-4 text-2xl font-bold">7 Days Stats</h2>
       <UmamiStatisticsWidgets timeframe="7d" />
 
-      <h2 className="text-2xl font-bold my-4">30 Days Stats</h2>
+      <h2 className="my-4 text-2xl font-bold">30 Days Stats</h2>
       <UmamiStatisticsWidgets timeframe="30d" />
     </main>
   )
@@ -119,7 +119,7 @@ const UmamiStatisticsWidgets = async ({ timeframe }: { timeframe: Timeframe }) =
   const stats = await getPageStats(timeframe)
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
       <StatisticsWidget title="Views" value={stats.pageviews.value.toLocaleString()} />
       <StatisticsWidget title="Visits" value={stats.visits.value.toLocaleString()} />
       <StatisticsWidget title="Visitors" value={stats.visitors.value.toLocaleString()} />

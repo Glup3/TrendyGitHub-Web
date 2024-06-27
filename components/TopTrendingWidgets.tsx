@@ -35,7 +35,7 @@ export const TopTrendingWidgets = async ({
               {repo.name_with_owner}
             </a>
 
-            <span className="text-sm line-clamp-4 dark:text-gray-400">{repo.description ?? ''}</span>
+            <span className="line-clamp-4 text-sm dark:text-gray-400">{repo.description ?? ''}</span>
           </div>
 
           <div className="ml-auto flex flex-col items-center justify-center pl-4">

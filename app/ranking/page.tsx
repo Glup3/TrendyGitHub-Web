@@ -42,7 +42,7 @@ export default async function RankingPage({ searchParams }: Props) {
 
   return (
     <main className="container">
-      <h1 className="text-3xl font-bold mb-4">Most Starred GitHub Repositories</h1>
+      <h1 className="mb-4 text-3xl font-bold">Most Starred GitHub Repositories</h1>
 
       <div className="border-4">
         {resp.repositories.map((repo) => (
@@ -68,7 +68,7 @@ export default async function RankingPage({ searchParams }: Props) {
                 </a>
               </div>
 
-              <span className="break-all line-clamp-3 text-sm dark:text-gray-400">{repo.description ?? ''}</span>
+              <span className="line-clamp-3 break-all text-sm dark:text-gray-400">{repo.description ?? ''}</span>
 
               <div className="mt-2 flex flex-col sm:flex-row sm:gap-4">
                 {repo.primary_language && <span>{repo.primary_language}</span>}

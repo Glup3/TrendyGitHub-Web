@@ -1,5 +1,5 @@
 import env from '@/lib/env'
-import { Kysely, PostgresDialect, Selectable } from 'kysely'
+import { Kysely, PostgresDialect, type Selectable } from 'kysely'
 import { Pool } from 'pg'
 
 export interface Database {
