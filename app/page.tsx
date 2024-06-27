@@ -25,11 +25,7 @@ async function getData(page: number, language: string | undefined, table: Histor
   const queryTotal = getTotalStarsRankingQuery(table)
   const queryLanguages = getLanguages()
 
-  const start = performance.now()
   const [res, total, languages] = await Promise.all([query.execute(), queryTotal.execute(), queryLanguages.execute()])
-  const end = performance.now()
-
-  console.log('time', end - start)
 
   return {
     repositories: res,
