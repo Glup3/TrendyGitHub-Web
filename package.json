@@ -10,10 +10,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@opentelemetry/api-logs": "^0.52.1",
+    "@opentelemetry/instrumentation": "^0.52.1",
+    "@opentelemetry/sdk-logs": "^0.52.1",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-table": "^8.17.3",
     "@unleash/nextjs": "^1.4.3",
+    "@vercel/otel": "^1.9.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
