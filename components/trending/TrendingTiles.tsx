@@ -27,20 +27,31 @@ export const TrendingTiles = async ({ page, language, view }: Props) => {
     <div className="flex flex-col gap-4">
       {repositories.map((repo) => (
         <Card key={repo.github_id}>
-          <CardHeader>
-            <CardTitle className="text-lg sm:text-xl">
-              <a
-                href={`https://github.com/${repo.name_with_owner}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-primary hover:underline"
-              >
-                {repo.name_with_owner.split('/').join(' / ')}
-              </a>
-            </CardTitle>
+          <div className="flex p-6">
+            <CardHeader className="flex-1 p-0">
+              <CardTitle className="text-lg sm:text-xl">
+                <a
+                  href={`https://github.com/${repo.name_with_owner}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-primary hover:underline"
+                >
+                  {repo.name_with_owner.split('/').join(' / ')}
+                </a>
+              </CardTitle>
 
-            <CardDescription className="max-w-prose">{repo.description ?? ''}</CardDescription>
-          </CardHeader>
+              <CardDescription className="max-w-prose break-all">{repo.description ?? ''}</CardDescription>
+            </CardHeader>
+
+            <Image
+              src={`https://github.com/${repo.name_with_owner.split('/')[0]}.png`}
+              alt={`GitHub User Logo ${repo.name_with_owner}`}
+              width="0"
+              height="0"
+              className="ml-4 h-[40px] w-[40px] flex-shrink-0 rounded"
+              unoptimized
+            />
+          </div>
 
           <CardContent>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
@@ -69,15 +80,6 @@ export const TrendingTiles = async ({ page, language, view }: Props) => {
               </div>
             </div>
           </CardContent>
-
-          {/*     <Image */}
-          {/*       src={`https://github.com/${repo.name_with_owner.split('/')[0]}.png`} */}
-          {/*       alt={`GitHub User Profile ${repo.name_with_owner}`} */}
-          {/*       width="0" */}
-          {/*       height="0" */}
-          {/*       className="mr-4 h-[40px] w-[40px] self-center rounded" */}
-          {/*       unoptimized */}
-          {/*     /> */}
         </Card>
       ))}
     </div>
