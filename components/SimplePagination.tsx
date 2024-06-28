@@ -14,17 +14,17 @@ const MAX_VISIBLE_PAGES = 3
 export const SimplePagination = ({
   className,
   totalCount,
-  perPage,
+  pageSize,
   currentPage,
   getPageHref,
 }: {
   className?: string
   totalCount: number
-  perPage: number
+  pageSize: number
   currentPage: number
   getPageHref: (newPage: number) => React.ComponentProps<typeof PaginationLink>['href']
 }) => {
-  const totalPages = Math.ceil(totalCount / perPage)
+  const totalPages = Math.ceil(totalCount / pageSize)
   const pageNumLimit = Math.floor(MAX_VISIBLE_PAGES / 2)
   const hasPrevPage = currentPage <= 1
   const hasNextpage = currentPage >= totalPages

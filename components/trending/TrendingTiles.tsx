@@ -5,19 +5,18 @@ import { getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 
-const PER_PAGE = 50
-
 type Props = {
   page: number // 1-based index
+  pageSize: number
   language: string | undefined
   view: string
 }
 
-export const TrendingTiles = async ({ page, language, view }: Props) => {
+export const TrendingTiles = async ({ page, pageSize, language, view }: Props) => {
   const repositories = await getStarsRankingQuery({
     table: viewToTable(view),
-    perPage: PER_PAGE,
-    offset: Math.round(page - 1) * PER_PAGE,
+    perPage: pageSize,
+    offset: Math.round(page - 1) * pageSize,
     language,
   }).execute()
 

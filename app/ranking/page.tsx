@@ -92,7 +92,7 @@ export default async function RankingPage({ searchParams }: Props) {
         className="my-4"
         currentPage={search.page}
         totalCount={resp.totalCount}
-        perPage={perPage}
+        pageSize={perPage}
         getPageHref={(newPage) => ({ pathname: '/ranking', query: { ...search, page: newPage } })}
       />
     </main>
