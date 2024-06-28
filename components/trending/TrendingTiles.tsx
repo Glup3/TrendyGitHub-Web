@@ -1,6 +1,6 @@
 import { SimpleStarHistoryChart } from '../SimpleStarHistoryChart'
 import NumberTicker from '../magicui/NumberTicker'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
@@ -71,8 +71,13 @@ export const TrendingTiles = async ({ page, language, view }: Props) => {
               </div>
 
               <div className="flex items-center gap-1 sm:ml-auto">
-                <div className="h-4 w-8">
-                  <SimpleStarHistoryChart data={histories.get(repo.id) ?? []} />
+                <div className="h-6 w-8">
+                  <SimpleStarHistoryChart
+                    data={(histories.get(repo.id) ?? []).map((h) => ({
+                      date: h.date,
+                      starCount: h.starCount - repo.star_count,
+                    }))}
+                  />
                 </div>
                 <Triangle className="inline-block" size={12} />
                 <NumberTicker key={`ticker-${repo.github_id}-${view}`} value={repo.stars_difference} />

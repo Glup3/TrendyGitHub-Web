@@ -7,7 +7,7 @@ export const SimpleStarHistoryChart = ({ data }: { data: { starCount: number; da
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data}>
         <YAxis hide={true} scale="pow" />
-        <Line type="monotone" stroke="#8884d8" dataKey="starCount" dot={false} strokeWidth={2} />
+        <Line type="monotone" dataKey="starCount" dot={false} strokeWidth={2} />
       </LineChart>
     </ResponsiveContainer>
   )
