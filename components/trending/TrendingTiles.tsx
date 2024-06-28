@@ -26,7 +26,7 @@ export const TrendingTiles = async ({ page, language, view }: Props) => {
   return (
     <div className="flex flex-col gap-4">
       {repositories.map((repo) => (
-        <Card key={repo.github_id}>
+        <Card key={repo.github_id} className="shadow-none transition-shadow duration-200 hover:shadow-lg">
           <div className="flex p-6">
             <CardHeader className="flex-1 p-0">
               <CardTitle className="text-lg sm:text-xl">
