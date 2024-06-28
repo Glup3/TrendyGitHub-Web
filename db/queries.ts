@@ -19,7 +19,7 @@ export const getStarsRankingQuery = (vars: {
       'star_count',
       'fork_count',
       'primary_language',
-      'description',
+      'repositories.description',
       'stars_difference',
     ])
     .orderBy('stars_difference', 'desc')
