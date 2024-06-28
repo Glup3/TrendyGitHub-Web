@@ -20,7 +20,7 @@ export const Navbar = () => {
                 className="block rounded text-blue-700 dark:text-blue-500 md:bg-transparent md:p-0"
                 aria-current="page"
               >
-                Trends
+                Trending
               </Link>
             </li>
             <li>
