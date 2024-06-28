@@ -1,6 +1,6 @@
 import { SimplePagination } from '@/components/SimplePagination'
 import { TrendingFilter } from '@/components/TrendingFilter'
-import { TrendingTiles } from '@/components/trending/TrendingTiles'
+import { TrendingTiles, TrendingTilesSkeleton } from '@/components/trending/TrendingTiles'
 import { type HistoryTable, getLanguages, getTotalStarsRankingQuery } from '@/db/queries'
 import { searchSchema, type viewSchema } from '@/lib/schemas'
 import { Suspense } from 'react'
@@ -42,7 +42,7 @@ export default async function Home({ searchParams }: Props) {
         />
       </div>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<TrendingTilesSkeleton />}>
         <TrendingTiles page={search.page} pageSize={PAGE_SIZE} language={search.language} view={search.view} />
       </Suspense>
 

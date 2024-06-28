@@ -1,6 +1,7 @@
 import { SimpleStarHistoryChart } from '../SimpleStarHistoryChart'
 import NumberTicker from '../magicui/NumberTicker'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Skeleton } from '../ui/skeleton'
 import { getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
@@ -86,6 +87,32 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
           </CardContent>
         </Card>
       ))}
+    </div>
+  )
+}
+
+export const TrendingTilesSkeleton = () => {
+  return (
+    <div className="flex flex-col gap-4">
+      {Array(10)
+        .fill(0)
+        .map((_, i) => (
+          <Card key={`trending-skeleton-${i}`} className="p-6">
+            <div className="flex justify-between">
+              <div>
+                <Skeleton className="h-5 w-[280px]" />
+                <Skeleton className="mt-3 h-4 w-[240px]" />
+              </div>
+
+              <Skeleton className="h-[40px] w-[40px] rounded" />
+            </div>
+
+            <div className="mt-8 flex justify-between">
+              <Skeleton className="h-4 w-[240px]" />
+              <Skeleton className="h-4 w-[100px]" />
+            </div>
+          </Card>
+        ))}
     </div>
   )
 }
