@@ -1,5 +1,5 @@
 import { SimplePagination } from '@/components/SimplePagination'
-import { TrendingFilter } from '@/components/TrendingFilter'
+import { SidebarFilter } from '@/components/trending/SidebarFilter'
 import { TrendingTiles, TrendingTilesSkeleton } from '@/components/trending/TrendingTiles'
 import { type HistoryTable, getLanguages, getTotalStarsRankingQuery } from '@/db/queries'
 import { searchSchema, type viewSchema } from '@/lib/schemas'
@@ -32,28 +32,25 @@ export default async function Home({ searchParams }: Props) {
   const res = await getData(table)
 
   return (
-    <main className="container">
-      <div className="my-4 flex flex-col justify-between sm:flex-row sm:items-center">
-        <h1 className="text-2xl font-bold">Trending GitHub Repositories</h1>
+    <div className="container flex">
+      <main className="flex-1">
+        <h1 className="mb-4 text-2xl font-bold">Trending GitHub Repositories</h1>
 
-        <TrendingFilter
-          language={search.language}
-          languages={res.languages.map((l) => ({ name: l.primary_language }))}
+        <Suspense fallback={<TrendingTilesSkeleton />}>
+          <TrendingTiles page={search.page} pageSize={PAGE_SIZE} language={search.language} view={search.view} />
+        </Suspense>
+
+        <SimplePagination
+          className="my-4"
+          currentPage={search.page}
+          totalCount={res.totalCount}
+          pageSize={PAGE_SIZE}
+          getPageHref={(newPage) => ({ pathname: '/', query: { ...search, page: newPage } })}
         />
-      </div>
+      </main>
 
-      <Suspense fallback={<TrendingTilesSkeleton />}>
-        <TrendingTiles page={search.page} pageSize={PAGE_SIZE} language={search.language} view={search.view} />
-      </Suspense>
-
-      <SimplePagination
-        className="my-4"
-        currentPage={search.page}
-        totalCount={res.totalCount}
-        pageSize={PAGE_SIZE}
-        getPageHref={(newPage) => ({ pathname: '/', query: { ...search, page: newPage } })}
-      />
-    </main>
+      <SidebarFilter search={search} />
+    </div>
   )
 }
 
