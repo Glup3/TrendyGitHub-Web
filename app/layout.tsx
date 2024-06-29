@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     'Weekly Trending GitHub Repos',
     'Monthly Trending GitHub Repos',
     'GitHub Trend',
+    'GitHub Trending',
   ],
   robots: {
     index: true,
