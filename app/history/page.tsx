@@ -20,12 +20,20 @@ export default async function HistoryPage({ searchParams }: Props) {
     ? await db
         .selectFrom('repositories as r')
         .innerJoin('stars_history as h', 'h.repository_id', 'r.id')
-        .select(['r.name_with_owner', 'r.id', 'h.star_count', 'h.created_at'])
+        .select(['r.name_with_owner', 'r.id', 'h.star_count', 'h.created_at', 'primary_language'])
         .where('r.name_with_owner', '=', search.repository)
         .orderBy('r.name_with_owner')
         .orderBy('h.created_at')
         .execute()
     : []
+
+  const language = result[0]?.primary_language
+    ? await db
+        .selectFrom('languages')
+        .select('hexcolor')
+        .where('id', '=', result[0].primary_language)
+        .executeTakeFirst()
+    : undefined
 
   return (
     <main className="container">
@@ -51,7 +59,7 @@ export default async function HistoryPage({ searchParams }: Props) {
           </div>
           <div className="aspect-video w-full">
             <StarHistoryChart
-              repoName={search.repository}
+              lineColor={language?.hexcolor ?? '#64748B'}
               data={result.map((r) => ({ date: r.created_at.getTime(), repo: r.star_count }))}
             />
           </div>

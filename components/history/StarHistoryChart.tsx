@@ -8,7 +8,7 @@ type ChartData = {
   repo: number
 }
 
-export const StarHistoryChart = ({ data }: { data: ChartData[]; repoName: string }) => {
+export const StarHistoryChart = ({ data, lineColor }: { data: ChartData[]; lineColor: string }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data}>
@@ -25,7 +25,7 @@ export const StarHistoryChart = ({ data }: { data: ChartData[]; repoName: string
           }}
         />
 
-        <Line dataKey="repo" type="monotone" strokeWidth={2} dot={false} />
+        <Line dataKey="repo" type="monotone" stroke={lineColor} strokeWidth={2} dot={false} />
       </LineChart>
     </ResponsiveContainer>
   )
