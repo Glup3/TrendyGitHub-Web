@@ -39,7 +39,7 @@ export default async function Home({ searchParams }: Props) {
               </SheetHeader>
               <div>
                 <TimeFilter search={search} className="mb-8" />
-                <LanguageFilter search={search} />
+                <LanguageFilter search={search} withDropDown={false} />
               </div>
             </SheetContent>
           </Sheet>
@@ -60,7 +60,7 @@ export default async function Home({ searchParams }: Props) {
 
       <aside className="sticky top-10 ml-10 mt-12 hidden h-screen w-[200px] overflow-y-auto px-1 sm:block">
         <TimeFilter search={search} className="mb-8" />
-        <LanguageFilter search={search} />
+        <LanguageFilter search={search} withDropDown={true} />
       </aside>
     </div>
   )

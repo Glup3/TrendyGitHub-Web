@@ -50,7 +50,7 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
                   href={`https://github.com/${repo.name_with_owner}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-primary hover:underline"
+                  className="break-all font-semibold text-primary hover:underline"
                 >
                   {repo.name_with_owner.split('/').join(' / ')}
                 </a>
