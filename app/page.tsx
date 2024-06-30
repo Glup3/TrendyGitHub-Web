@@ -1,8 +1,12 @@
 import { SimplePagination } from '@/components/SimplePagination'
-import { SidebarFilter } from '@/components/trending/SidebarFilter'
+import { TimeFilter } from '@/components/TimeFilter'
+import { LanguageFilter } from '@/components/trending/LanguageFilter'
 import { TrendingTiles, TrendingTilesSkeleton } from '@/components/trending/TrendingTiles'
+import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { getTotalStarsRankingQuery } from '@/db/queries'
 import { searchSchema, type viewSchema } from '@/lib/schemas'
+import { SlidersHorizontal } from 'lucide-react'
 import { Suspense } from 'react'
 import { type z } from 'zod'
 
@@ -20,7 +24,26 @@ export default async function Home({ searchParams }: Props) {
   return (
     <div className="container flex">
       <main className="flex-1">
-        <h1 className="mb-4 text-2xl font-bold">Trending GitHub Repositories</h1>
+        <div className="mb-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold">Trending GitHub Repositories</h1>
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline">
+                <SlidersHorizontal className="size-4" /> Filter
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle>Filters</SheetTitle>
+              </SheetHeader>
+              <div>
+                <TimeFilter search={search} className="mb-8" />
+                <LanguageFilter search={search} />
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
 
         <Suspense fallback={<TrendingTilesSkeleton />}>
           <TrendingTiles page={search.page} pageSize={PAGE_SIZE} language={search.language} view={search.view} />
@@ -35,7 +58,10 @@ export default async function Home({ searchParams }: Props) {
         />
       </main>
 
-      <SidebarFilter search={search} />
+      <aside className="sticky top-10 ml-10 mt-12 hidden h-screen w-[200px] overflow-y-auto px-1 sm:block">
+        <TimeFilter search={search} className="mb-8" />
+        <LanguageFilter search={search} />
+      </aside>
     </div>
   )
 }

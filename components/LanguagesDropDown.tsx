@@ -18,6 +18,9 @@ export const LanguagesDropDown = ({ languages, selectedValue }: { languages: Ite
   const [open, setOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(initialIndex >= 0 ? initialIndex : null)
 
+  const searchParams = useSearchParams()
+  const pathName = usePathname()
+  const router = useRouter()
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -27,50 +30,32 @@ export const LanguagesDropDown = ({ languages, selectedValue }: { languages: Ite
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="start">
-        <StatusList setOpen={setOpen} setSelectedIndex={setSelectedIndex} items={languages} />
+        <Command>
+          <CommandInput placeholder="Filter language..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup>
+              {languages.map((item) => (
+                <CommandItem
+                  key={`language-${item.value}`}
+                  value={item.value}
+                  onSelect={(value) => {
+                    setSelectedIndex(languages.findIndex((i) => i.value === value))
+                    setOpen(false)
+
+                    const params = new URLSearchParams(searchParams)
+                    params.delete('page')
+                    params.set('language', value)
+                    void router.push(`${pathName}?${params.toString()}`)
+                  }}
+                >
+                  {item.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
       </PopoverContent>
     </Popover>
-  )
-}
-
-function StatusList({
-  setOpen,
-  setSelectedIndex,
-  items,
-}: {
-  setOpen: (open: boolean) => void
-  setSelectedIndex: (index: number) => void
-  items: Item[]
-}) {
-  const searchParams = useSearchParams()
-  const pathName = usePathname()
-  const router = useRouter()
-
-  return (
-    <Command>
-      <CommandInput placeholder="Filter language..." />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup>
-          {items.map((item) => (
-            <CommandItem
-              key={`language-${item.value}`}
-              value={item.value}
-              onSelect={(value) => {
-                setSelectedIndex(items.findIndex((i) => i.value === value))
-                setOpen(false)
-
-                const params = new URLSearchParams(searchParams)
-                params.delete('page')
-                params.set('language', value)
-                void router.push(`${pathName}?${params.toString()}`)
-              }}
-            >
-              {item.label}
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </CommandList>
-    </Command>
   )
 }
