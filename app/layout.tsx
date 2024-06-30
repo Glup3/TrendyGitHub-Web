@@ -58,7 +58,7 @@ export default function RootLayout({
           <Navbar />
 
           <div className="container">
-            <Alert className="my-4">
+            <Alert className="mb-4">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Maintenance</AlertTitle>
               <AlertDescription>

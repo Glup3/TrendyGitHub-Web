@@ -7,13 +7,13 @@ export const Navbar = () => {
   return (
     <nav className="container py-4">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <Link href="/" className="flex items-center space-x-3">
+        <Link href="/" className="flex items-center gap-2">
           <Image src="/icon.svg" width={32} height={32} alt="Trending Repos Logo" />
           <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Trending Repos</span>
         </Link>
 
         <div>
-          <ul className="mt-0 flex flex-wrap items-center space-x-6 rounded-lg border-0 p-0 font-medium">
+          <ul className="mt-0 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-lg border-0 p-0 font-medium">
             <li>
               <Link
                 href="/"

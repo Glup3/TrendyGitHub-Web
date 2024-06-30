@@ -1,6 +1,6 @@
+import { RepoInput } from '@/components/history/RepoInput'
 import { StarHistoryChart } from '@/components/history/StarHistoryChart'
 import { db } from '@/db/client'
-import Link from 'next/link'
 import { z } from 'zod'
 
 const searchSchema = z.object({
@@ -27,10 +27,11 @@ export default async function HistoryPage({ searchParams }: Props) {
 
   return (
     <main className="container">
-      <Link href={{ query: { repository: 'freeCodeCamp/freeCodeCamp' } }}>Repo</Link>
-      {search.repository}
+      <h1 className="text-3xl font-bold">Star History</h1>
 
-      {result.length > 0 && search.repository ? (
+      <RepoInput initialText={search.repository} />
+
+      {!search.repository ? null : result.length > 0 ? (
         <div className="h-[600px] w-full">
           <StarHistoryChart
             repoName={search.repository}
@@ -38,7 +39,7 @@ export default async function HistoryPage({ searchParams }: Props) {
           />
         </div>
       ) : (
-        <div>select a repo</div>
+        <div>no repo found...</div>
       )}
     </main>
   )
