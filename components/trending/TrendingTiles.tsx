@@ -130,14 +130,14 @@ export const TrendingTilesSkeleton = () => {
           <Card key={`trending-skeleton-${i}`} className="p-6">
             <div className="flex justify-between">
               <div>
-                <Skeleton className="h-5 w-[280px]" />
-                <Skeleton className="mt-3 h-4 w-[240px]" />
+                <Skeleton className="h-5 w-[240px]" />
+                <Skeleton className="mt-3 h-4 w-[200px]" />
               </div>
 
               <Skeleton className="h-[40px] w-[40px] rounded" />
             </div>
 
-            <div className="mt-8 flex justify-between">
+            <div className="mt-8 flex flex-col justify-between gap-y-2 sm:flex-row">
               <Skeleton className="h-4 w-[240px]" />
               <Skeleton className="h-4 w-[100px]" />
             </div>
