@@ -12,7 +12,7 @@ type Props = {
 export const SidebarFilter = ({ search }: Props) => {
   return (
     <aside className="sticky top-10 ml-10 mt-12 hidden h-screen w-[200px] overflow-y-auto sm:block">
-      <div className="mb-4">
+      <div className="mx-1 mb-4">
         <p className="my-2 text-sm font-semibold">Time filter</p>
         <ul className="space-y-1 text-sm">
           {timeFilters.map((t) => {

@@ -2,9 +2,11 @@ import { SimpleStarHistoryChart } from '../SimpleStarHistoryChart'
 import NumberTicker from '../magicui/NumberTicker'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 type Props = {
   page: number // 1-based index
@@ -74,14 +76,25 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
               </div>
 
               <div className="flex items-center gap-1 sm:ml-auto">
-                <div className="h-6 w-8">
-                  <SimpleStarHistoryChart
-                    data={(histories.get(repo.id) ?? []).map((h) => ({
-                      date: h.date,
-                      starCount: h.starCount - repo.star_count,
-                    }))}
-                  />
-                </div>
+                <TooltipProvider delayDuration={0}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link href={{ pathname: '/history', query: { repository: repo.name_with_owner } }}>
+                        <div className="h-6 w-8">
+                          <SimpleStarHistoryChart
+                            data={(histories.get(repo.id) ?? []).map((h) => ({
+                              date: h.date,
+                              starCount: h.starCount - repo.star_count,
+                            }))}
+                          />
+                        </div>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Star History</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 <Triangle className="inline-block" size={12} />
                 <NumberTicker key={`ticker-${repo.github_id}-${view}`} value={repo.stars_difference} />
                 stars {viewToText(view)}
