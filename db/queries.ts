@@ -30,14 +30,23 @@ export const getStarsRankingQuery = (vars: {
     .offset(vars.offset)
 
   if (vars.language !== DEFAULT_LANGUAGE) {
-    query = query.where('primary_language', 'ilike', vars.language)
+    query = query.where('primary_language', '=', vars.language)
   }
 
   return query
 }
 
-export const getTotalStarsRankingQuery = (table: HistoryTable) => {
-  return db.selectFrom(`${table} as mv_stars_history`).select(({ fn }) => [fn.countAll<number>().as('total')])
+export const getTotalStarsRankingQuery = async (table: HistoryTable, language: string) => {
+  let query = db
+    .selectFrom(`${table} as mv_stars_history`)
+    .innerJoin('repositories', 'repositories.id', 'mv_stars_history.repository_id')
+    .select(({ fn }) => [fn.countAll<number>().as('total')])
+
+  if (language !== DEFAULT_LANGUAGE) {
+    query = query.where('primary_language', '=', language)
+  }
+
+  return (await query.executeTakeFirst())?.total ?? 0
 }
 
 export const getMonthlyStarHistories = (repoIds: number[]) => {

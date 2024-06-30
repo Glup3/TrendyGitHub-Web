@@ -1,21 +1,12 @@
 import { SimplePagination } from '@/components/SimplePagination'
 import { SidebarFilter } from '@/components/trending/SidebarFilter'
 import { TrendingTiles, TrendingTilesSkeleton } from '@/components/trending/TrendingTiles'
-import { type HistoryTable, getTotalStarsRankingQuery } from '@/db/queries'
+import { getTotalStarsRankingQuery } from '@/db/queries'
 import { searchSchema, type viewSchema } from '@/lib/schemas'
 import { Suspense } from 'react'
 import { type z } from 'zod'
 
 const PAGE_SIZE = 50
-
-// 1-based index
-async function getData(table: HistoryTable) {
-  const [total] = await Promise.all([getTotalStarsRankingQuery(table).execute()])
-
-  return {
-    totalCount: total[0]?.total ?? 0,
-  }
-}
 
 type Props = {
   searchParams: Record<string, string | string[] | undefined>
@@ -24,8 +15,7 @@ type Props = {
 export default async function Home({ searchParams }: Props) {
   const search = searchSchema.parse(searchParams)
   const table = viewToTable(search.view)
-
-  const res = await getData(table)
+  const totalCount = await getTotalStarsRankingQuery(table, search.language)
 
   return (
     <div className="container flex">
@@ -39,7 +29,7 @@ export default async function Home({ searchParams }: Props) {
         <SimplePagination
           className="my-4"
           currentPage={search.page}
-          totalCount={res.totalCount}
+          totalCount={totalCount}
           pageSize={PAGE_SIZE}
           getPageHref={(newPage) => ({ pathname: '/', query: { ...search, page: newPage } })}
         />
