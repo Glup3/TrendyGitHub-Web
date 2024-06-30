@@ -1,7 +1,7 @@
 import { SimplePagination } from '@/components/SimplePagination'
 import { SidebarFilter } from '@/components/trending/SidebarFilter'
 import { TrendingTiles, TrendingTilesSkeleton } from '@/components/trending/TrendingTiles'
-import { type HistoryTable, getLanguages, getTotalStarsRankingQuery } from '@/db/queries'
+import { type HistoryTable, getTotalStarsRankingQuery } from '@/db/queries'
 import { searchSchema, type viewSchema } from '@/lib/schemas'
 import { Suspense } from 'react'
 import { type z } from 'zod'
@@ -10,14 +10,10 @@ const PAGE_SIZE = 50
 
 // 1-based index
 async function getData(table: HistoryTable) {
-  const queryTotal = getTotalStarsRankingQuery(table)
-  const queryLanguages = getLanguages()
-
-  const [total, languages] = await Promise.all([queryTotal.execute(), queryLanguages.execute()])
+  const [total] = await Promise.all([getTotalStarsRankingQuery(table).execute()])
 
   return {
     totalCount: total[0]?.total ?? 0,
-    languages: languages,
   }
 }
 

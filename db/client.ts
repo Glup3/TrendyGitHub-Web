@@ -5,9 +5,15 @@ import { Pool } from 'pg'
 export interface Database {
   repositories: RepositoriesTable
   stars_history: StarsHistoryTable
+  languages: LanguagesTable
   mv_daily_stars: HistoryView
   mv_weekly_stars: HistoryView
   mv_monthly_stars: HistoryView
+}
+
+export interface LanguagesTable {
+  id: string
+  hexcolor: string
 }
 
 export interface HistoryView {

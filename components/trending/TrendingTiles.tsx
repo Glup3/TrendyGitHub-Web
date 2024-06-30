@@ -3,7 +3,7 @@ import NumberTicker from '../magicui/NumberTicker'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
-import { getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
+import { getAllLanguages, getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
 import { GitFork, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -22,6 +22,7 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
     offset: Math.round(page - 1) * pageSize,
     language,
   }).execute()
+  const languages = await getAllLanguages()
 
   const histories = await getHistories(repositories.map((repo) => repo.id))
 
@@ -61,7 +62,10 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
           <CardContent>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
               <div className="flex items-center">
-                <div className="mr-1 h-3 w-3 rounded-full bg-primary"></div>
+                <div
+                  className="mr-1 h-3 w-3 rounded-full"
+                  style={{ backgroundColor: languages.get(repo.primary_language) ?? '#64748B' }}
+                />
                 <span>{repo.primary_language ? repo.primary_language : 'README'}</span>
               </div>
 

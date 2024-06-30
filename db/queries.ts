@@ -1,5 +1,6 @@
 import { db } from './client'
 import { sql } from 'kysely'
+import { cache } from 'react'
 
 export type HistoryTable = 'mv_daily_stars' | 'mv_weekly_stars' | 'mv_monthly_stars'
 
@@ -47,10 +48,7 @@ export const getMonthlyStarHistories = (repoIds: number[]) => {
     .orderBy('created_at asc')
 }
 
-export const getLanguages = () => {
-  return db
-    .selectFrom('repositories')
-    .select(({ fn }) => ['primary_language', fn.count<number>('primary_language').as('count')])
-    .groupBy('primary_language')
-    .orderBy('count desc')
-}
+export const getAllLanguages = cache(async () => {
+  const languages = await db.selectFrom('languages').select(['id', 'hexcolor']).execute()
+  return new Map(languages.map((l) => [l.id, l.hexcolor]))
+})
