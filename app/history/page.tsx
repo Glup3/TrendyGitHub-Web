@@ -58,8 +58,8 @@ export default async function HistoryPage({ searchParams }: Props) {
         </div>
       ) : (
         <div>
-          <h2 className="mb-2 text-2xl font-bold">No Repository Found</h2>
-          <p className="max-w-prose">
+          <h2 className="mb-2 hyphens-auto text-2xl font-bold">Repository &quot;{search.repository}&quot; Not Found</h2>
+          <p>
             We couldn&apos;t locate the repository you searched for. It might be spelled incorrectly or currently
             unavailable. Please try again with a different name.
           </p>
