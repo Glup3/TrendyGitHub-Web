@@ -11,12 +11,15 @@ type Props = {
 const PAGE_SIZE = 100
 // 1-based index
 async function getData() {
-  const query2 = db.selectFrom('repositories').select(({ fn }) => [fn.countAll<number>().as('total')])
-
-  const [total] = await Promise.all([query2.execute()])
+  const [total] = await Promise.all([
+    db
+      .selectFrom('repositories')
+      .select(({ fn }) => [fn.countAll<number>().as('total')])
+      .executeTakeFirst(),
+  ])
 
   return {
-    totalCount: total[0]?.total ?? 0,
+    totalCount: total?.total ?? 0,
   }
 }
 

@@ -1,4 +1,5 @@
 import { db } from './client'
+import { DEFAULT_LANGUAGE } from '@/lib/schemas'
 import { sql } from 'kysely'
 import { cache } from 'react'
 
@@ -8,7 +9,7 @@ export const getStarsRankingQuery = (vars: {
   table: HistoryTable
   perPage: number
   offset: number
-  language: string | undefined
+  language: string
 }) => {
   let query = db
     .selectFrom(`${vars.table} as mv_stars_history`)
@@ -28,7 +29,7 @@ export const getStarsRankingQuery = (vars: {
     .limit(vars.perPage)
     .offset(vars.offset)
 
-  if (vars.language) {
+  if (vars.language !== DEFAULT_LANGUAGE) {
     query = query.where('primary_language', 'ilike', vars.language)
   }
 
@@ -49,6 +50,5 @@ export const getMonthlyStarHistories = (repoIds: number[]) => {
 }
 
 export const getAllLanguages = cache(async () => {
-  const languages = await db.selectFrom('languages').select(['id', 'hexcolor']).execute()
-  return new Map(languages.map((l) => [l.id, l.hexcolor]))
+  return db.selectFrom('languages').select(['id', 'hexcolor']).orderBy('id').execute()
 })

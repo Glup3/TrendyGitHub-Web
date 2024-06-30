@@ -11,7 +11,7 @@ import Link from 'next/link'
 type Props = {
   page: number // 1-based index
   pageSize: number
-  language: string | undefined
+  language: string
   view: string
 }
 
@@ -22,7 +22,8 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
     offset: Math.round(page - 1) * pageSize,
     language,
   }).execute()
-  const languages = await getAllLanguages()
+
+  const languages = new Map((await getAllLanguages()).map((l) => [l.id, l.hexcolor]))
 
   const histories = await getHistories(repositories.map((repo) => repo.id))
 

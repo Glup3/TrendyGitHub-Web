@@ -1,12 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { db } from '@/db/client'
+import { DEFAULT_LANGUAGE } from '@/lib/schemas'
 import { GitFork, Star } from 'lucide-react'
 import Image from 'next/image'
 
 type Props = {
   page: number // 1-based index
   pageSize: number
-  language: string | undefined
+  language: string
 }
 
 export const RepoCards = async ({ page, pageSize, language }: Props) => {
@@ -18,7 +19,7 @@ export const RepoCards = async ({ page, pageSize, language }: Props) => {
     .limit(pageSize)
     .offset(Math.round(page - 1) * pageSize)
 
-  if (language) {
+  if (language !== DEFAULT_LANGUAGE) {
     query = query.where('primary_language', 'ilike', language)
   }
 
