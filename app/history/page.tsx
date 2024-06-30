@@ -1,6 +1,8 @@
+import { ExampleBadges } from '@/components/history/ExampleBadges'
 import { RepoInput } from '@/components/history/RepoInput'
 import { StarHistoryChart } from '@/components/history/StarHistoryChart'
 import { db } from '@/db/client'
+import Image from 'next/image'
 import { z } from 'zod'
 
 const searchSchema = z.object({
@@ -31,15 +33,37 @@ export default async function HistoryPage({ searchParams }: Props) {
 
       <RepoInput initialText={search.repository} />
 
+      <ExampleBadges />
+
       {!search.repository ? null : result.length > 0 ? (
-        <div className="h-[600px] w-full">
-          <StarHistoryChart
-            repoName={search.repository}
-            data={result.map((r) => ({ date: r.created_at.getTime(), repo: r.star_count }))}
-          />
+        <div>
+          <div className="mb-4 flex items-center gap-2">
+            <Image
+              src={`https://github.com/${search.repository.split('/')[0]}.png`}
+              alt={`GitHub User Logo ${search.repository}`}
+              width="0"
+              height="0"
+              className="size-8 rounded"
+              unoptimized
+            />
+
+            <h2 className="text-2xl font-bold">{search.repository}</h2>
+          </div>
+          <div className="aspect-video w-full">
+            <StarHistoryChart
+              repoName={search.repository}
+              data={result.map((r) => ({ date: r.created_at.getTime(), repo: r.star_count }))}
+            />
+          </div>
         </div>
       ) : (
-        <div>no repo found...</div>
+        <div>
+          <h2 className="mb-2 text-2xl font-bold">No Repository Found</h2>
+          <p className="max-w-prose">
+            We couldn&apos;t locate the repository you searched for. It might be spelled incorrectly or currently
+            unavailable. Please try again with a different name.
+          </p>
+        </div>
       )}
     </main>
   )
