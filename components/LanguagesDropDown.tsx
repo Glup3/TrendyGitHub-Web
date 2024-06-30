@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ChevronDown } from 'lucide-react'
+import { useRouter } from 'next-nprogress-bar'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 type Item = {

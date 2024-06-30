@@ -3,6 +3,7 @@ import { RepoInput } from '@/components/history/RepoInput'
 import { StarHistoryChart } from '@/components/history/StarHistoryChart'
 import { db } from '@/db/client'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import { z } from 'zod'
 
 const searchSchema = z.object({
@@ -41,7 +42,9 @@ export default async function HistoryPage({ searchParams }: Props) {
 
       <RepoInput initialText={search.repository} />
 
-      <ExampleBadges />
+      <Suspense>
+        <ExampleBadges />
+      </Suspense>
 
       {!search.repository ? null : result.length > 0 ? (
         <div>

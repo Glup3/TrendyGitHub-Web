@@ -1,5 +1,6 @@
 import './globals.css'
 import { Navbar } from '@/components/Navbar'
+import { ProgressBarProvider } from '@/components/ProgressBarProvider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
@@ -55,20 +56,22 @@ export default function RootLayout({
 
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Navbar />
+          <ProgressBarProvider>
+            <Navbar />
 
-          <div className="container">
-            <Alert className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Maintenance</AlertTitle>
-              <AlertDescription>
-                This project is heavily under construction and not really production ready. The database is currently in
-                maintenance mode and data is incomplete.
-              </AlertDescription>
-            </Alert>
-          </div>
+            <div className="container">
+              <Alert className="mb-4">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Maintenance</AlertTitle>
+                <AlertDescription>
+                  This project is heavily under construction and not really production ready. The database is currently
+                  in maintenance mode and data is incomplete.
+                </AlertDescription>
+              </Alert>
+            </div>
 
-          {children}
+            {children}
+          </ProgressBarProvider>
         </ThemeProvider>
       </body>
 
