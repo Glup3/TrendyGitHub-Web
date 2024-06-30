@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Skeleton } from '../ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { getAllLanguages, getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
-import { GitFork, Star, Triangle } from 'lucide-react'
+import { GitFork, SearchX, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -26,6 +26,15 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
   const languages = new Map((await getAllLanguages()).map((l) => [l.id, l.hexcolor]))
 
   const histories = await getHistories(repositories.map((repo) => repo.id))
+
+  if (repositories.length === 0) {
+    return (
+      <div className="mb-16 mt-8 flex flex-col items-center gap-4">
+        <SearchX className="size-32" />
+        <p>No repositories found. Try adjusting your filters.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-4">
