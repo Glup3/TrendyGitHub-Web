@@ -12,7 +12,7 @@ export const StarHistoryChart = ({ data, lineColor }: { data: ChartData[]; lineC
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data}>
-        <XAxis dataKey="date" tickFormatter={(v) => dayjs(v as unknown as number).format('MMM D, YYYY')} angle={280} />
+        <XAxis dataKey="date" tickFormatter={(v) => dayjs(v as unknown as number).format('MMM YYYY')} />
         <YAxis />
         <Tooltip
           content={(props) => {
