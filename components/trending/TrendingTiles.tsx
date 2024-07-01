@@ -4,9 +4,55 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Skeleton } from '../ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { getAllLanguages, getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
+import { redis } from '@/lib/redis'
 import { GitFork, SearchX, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+
+type Repo = {
+  id: number
+  github_id: string
+  name_with_owner: string
+  star_count: number
+  fork_count: number
+  primary_language: string
+  stars_difference: number
+  description: string | undefined
+}
+
+const fetchRepositories = async (params: {
+  page: number
+  pageSize: number
+  language: string
+  view: string
+}): Promise<Repo[]> => {
+  const TTL = 45 * 60
+  const key = `trends:${params.view}:lang:${params.language}:page:${params.page}`
+
+  if (await redis.exists(key)) {
+    const cachedValues = await redis.hgetall(key)
+    return Object.values(cachedValues).map((v) => JSON.parse(v) as unknown as Repo)
+  }
+
+  const repositories = await getStarsRankingQuery({
+    table: viewToTable(params.view),
+    perPage: params.pageSize,
+    offset: Math.round(params.page - 1) * params.pageSize,
+    language: params.language,
+  }).execute()
+
+  if (repositories.length > 0 && params.page) {
+    const hashData: Record<string, string> = {}
+    repositories.forEach((repo, index) => {
+      hashData[index.toString()] = JSON.stringify(repo)
+    })
+
+    await redis.hset(key, hashData)
+    await redis.expire(key, TTL)
+  }
+
+  return repositories
+}
 
 type Props = {
   page: number // 1-based index
@@ -16,13 +62,7 @@ type Props = {
 }
 
 export const TrendingTiles = async ({ page, pageSize, language, view }: Props) => {
-  const repositories = await getStarsRankingQuery({
-    table: viewToTable(view),
-    perPage: pageSize,
-    offset: Math.round(page - 1) * pageSize,
-    language,
-  }).execute()
-
+  const repositories = await fetchRepositories({ page, pageSize, language, view })
   const languages = new Map((await getAllLanguages()).map((l) => [l.id, l.hexcolor]))
 
   const histories = await getHistories(repositories.map((repo) => repo.id))

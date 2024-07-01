@@ -7,6 +7,7 @@ const envSchema = z.object({
   UMAMI_TOKEN: z.string(),
   UMAMI_WEBSITE_ID: z.string(),
   UMAMI_URL: z.string(),
+  REDIS_URL: z.string(),
 })
 
 const env = envSchema.parse(process.env)
