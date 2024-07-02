@@ -1,5 +1,6 @@
 import { badgeVariants } from '../ui/badge'
 import { db } from '@/db/client'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 
 export const ExampleBadges = async () => {
@@ -15,12 +16,12 @@ export const ExampleBadges = async () => {
   repositories.sort((a, b) => b.name_with_owner.length - a.name_with_owner.length)
 
   return (
-    <div className="mb-8 flex flex-wrap gap-2">
+    <div className="mb-8 flex flex-wrap gap-3">
       {repositories.map((repo) => (
         <Link
           href={{ query: { repository: repo.name_with_owner } }}
           key={repo.name_with_owner}
-          className={badgeVariants({ variant: 'outline' })}
+          className={cn(badgeVariants({ variant: 'outline' }), 'px-3 py-1')}
         >
           {repo.name_with_owner}
         </Link>

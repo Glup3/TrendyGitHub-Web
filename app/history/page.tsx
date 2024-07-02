@@ -48,7 +48,7 @@ export default async function HistoryPage({ searchParams }: Props) {
 
       {!search.repository ? null : result.length > 0 ? (
         <div>
-          <div className="mb-4 flex items-center gap-2">
+          <div className="mb-6 flex items-center gap-2">
             <Image
               src={`https://github.com/${search.repository.split('/')[0]}.png`}
               alt={`GitHub User Logo ${search.repository}`}
@@ -58,8 +58,16 @@ export default async function HistoryPage({ searchParams }: Props) {
               unoptimized
             />
 
-            <h2 className="text-2xl font-bold">{search.repository}</h2>
+            <a
+              href={`https://github.com/${search.repository}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="break-all font-semibold text-primary hover:underline"
+            >
+              <h2 className="text-2xl font-bold">{search.repository}</h2>
+            </a>
           </div>
+
           <div className="aspect-video w-full">
             <StarHistoryChart
               lineColor={language?.hexcolor ?? '#64748B'}
