@@ -29,7 +29,7 @@ export default async function Home({ searchParams }: Props) {
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="flex gap-2 sm:hidden">
                 <SlidersHorizontal className="size-4" /> Filter
               </Button>
             </SheetTrigger>

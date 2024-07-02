@@ -1,7 +1,15 @@
+import { CurrentPageProvider } from './CurrentPageProvider'
 import { ModeToggle } from './ModeToggle'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+
+const pages: { name: string; href: string }[] = [
+  { name: 'Trending', href: '/' },
+  { name: 'History', href: '/history' },
+  { name: 'Ranking', href: '/ranking' },
+  { name: 'Statistics', href: '/statistics' },
+]
 
 export const Navbar = () => {
   return (
@@ -14,40 +22,14 @@ export const Navbar = () => {
 
         <div>
           <ul className="mt-0 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-lg border-0 p-0 font-medium">
-            <li>
-              <Link
-                href="/"
-                className="block rounded text-blue-700 dark:text-blue-500 md:bg-transparent md:p-0"
-                aria-current="page"
-              >
-                Trending
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/history"
-                className="block rounded text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                History
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/ranking"
-                className="block rounded text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                Ranking
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/statistics"
-                // TODO: adapt css
-                className="block rounded text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                Statistics
-              </Link>
-            </li>
+            {pages.map((page) => (
+              <CurrentPageProvider href={page.href} key={page.href}>
+                <Link href={page.href} className="hover:text-primary group-[.active-page]:text-primary">
+                  {page.name}
+                </Link>
+              </CurrentPageProvider>
+            ))}
+
             <li>
               <ModeToggle />
             </li>
