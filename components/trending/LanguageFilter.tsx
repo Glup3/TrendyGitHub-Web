@@ -34,7 +34,7 @@ export const LanguageFilter = async ({ search, className, withDropDown }: Props)
 
   return (
     <div className={cn(className)}>
-      <p className="my-2 text-sm font-semibold">Language filter</p>
+      <p className="my-2 text-lg font-semibold">Language filter</p>
       <ul className="mb-2 space-y-1 text-sm">
         {popularLanguages
           .concat(withDropDown ? [] : filteredLanguages.map((l) => ({ id: l.id, label: l.id })))

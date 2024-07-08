@@ -83,7 +83,7 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
           key={repo.github_id}
           className="shadow-none transition-shadow duration-200 hover:shadow-lg dark:hover:shadow-slate-800"
         >
-          <div className="flex p-6">
+          <div className="flex gap-x-8 p-6">
             <CardHeader className="flex-1 p-0">
               <CardTitle className="text-lg sm:text-xl">
                 <a
@@ -104,7 +104,7 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
               alt={`GitHub User Logo ${repo.name_with_owner}`}
               width="0"
               height="0"
-              className="ml-4 h-[40px] w-[40px] flex-shrink-0 rounded"
+              className="h-[40px] w-[40px] flex-shrink-0 rounded"
               unoptimized
             />
           </div>

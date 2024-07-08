@@ -22,46 +22,56 @@ export default async function Home({ searchParams }: Props) {
   const totalCount = await getTotalStarsRankingQuery(table, search.language)
 
   return (
-    <div className="container flex">
-      <main className="flex-1">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Trending GitHub Repositories</h2>
+    <div className="container">
+      <div className="mb-8 flex flex-col gap-2 sm:mt-4">
+        <h1 className="text-4xl font-bold tracking-[-0.02em]">Discover GitHub&apos;s Top Trending Repositories</h1>
+        <p className="leading-loose">
+          Stay updated with the latest and most popular GitHub repositories. We fetch data from the official GitHub API,
+          analyze it in-house, and update our listings every hour to bring you the freshest trends.
+        </p>
+      </div>
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" className="flex gap-2 sm:hidden">
-                <SlidersHorizontal className="size-4" /> Filter
-              </Button>
-            </SheetTrigger>
-            <SheetContent className="overflow-y-auto">
-              <SheetHeader>
-                <SheetTitle>Filters</SheetTitle>
-              </SheetHeader>
-              <div>
-                <TimeFilter search={search} className="mb-8" />
-                <LanguageFilter search={search} withDropDown={false} />
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+      <div className="flex">
+        <main className="flex-1">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-bold">Trending GitHub Repositories</h2>
 
-        <Suspense fallback={<TrendingTilesSkeleton />}>
-          <TrendingTiles page={search.page} pageSize={PAGE_SIZE} language={search.language} view={search.view} />
-        </Suspense>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="flex gap-2 sm:hidden">
+                  <SlidersHorizontal className="size-4" /> Filter
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                </SheetHeader>
+                <div>
+                  <TimeFilter search={search} className="mb-8" />
+                  <LanguageFilter search={search} withDropDown={false} />
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
 
-        <SimplePagination
-          className="my-4"
-          currentPage={search.page}
-          totalCount={totalCount}
-          pageSize={PAGE_SIZE}
-          getPageHref={(newPage) => ({ pathname: '/', query: { ...search, page: newPage } })}
-        />
-      </main>
+          <Suspense fallback={<TrendingTilesSkeleton />}>
+            <TrendingTiles page={search.page} pageSize={PAGE_SIZE} language={search.language} view={search.view} />
+          </Suspense>
 
-      <aside className="sticky top-10 ml-10 mt-12 hidden h-screen w-[200px] overflow-y-auto px-1 sm:block">
-        <TimeFilter search={search} className="mb-8" />
-        <LanguageFilter search={search} withDropDown={true} />
-      </aside>
+          <SimplePagination
+            className="my-4"
+            currentPage={search.page}
+            totalCount={totalCount}
+            pageSize={PAGE_SIZE}
+            getPageHref={(newPage) => ({ pathname: '/', query: { ...search, page: newPage } })}
+          />
+        </main>
+
+        <aside className="sticky top-10 ml-10 mt-12 hidden h-screen w-[200px] overflow-y-auto px-1 sm:block">
+          <TimeFilter search={search} className="mb-8" />
+          <LanguageFilter search={search} withDropDown={true} />
+        </aside>
+      </div>
     </div>
   )
 }

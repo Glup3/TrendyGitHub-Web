@@ -25,7 +25,7 @@ type Props = {
 export const TimeFilter = ({ search, className }: Props) => {
   return (
     <div className={cn(className)}>
-      <p className="my-2 text-sm font-semibold">Time filter</p>
+      <p className="my-2 text-lg font-semibold">Time filter</p>
       <ul className="space-y-1 text-sm">
         {timeFilters.map((t) => {
           const activeStyle = t.view === search.view && 'bg-primary text-primary-foreground'
