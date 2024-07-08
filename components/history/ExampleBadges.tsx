@@ -21,7 +21,7 @@ export const ExampleBadges = async () => {
         <Link
           href={{ query: { repository: repo.name_with_owner } }}
           key={repo.name_with_owner}
-          className={cn(badgeVariants({ variant: 'outline' }), 'px-3 py-1')}
+          className={cn(badgeVariants({ variant: 'outline' }), 'px-3 py-1 hover:bg-accent')}
         >
           {repo.name_with_owner}
         </Link>

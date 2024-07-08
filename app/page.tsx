@@ -25,7 +25,7 @@ export default async function Home({ searchParams }: Props) {
     <div className="container flex">
       <main className="flex-1">
         <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Trending GitHub Repositories</h1>
+          <h2 className="text-2xl font-bold">Trending GitHub Repositories</h2>
 
           <Sheet>
             <SheetTrigger asChild>

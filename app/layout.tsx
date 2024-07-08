@@ -2,8 +2,6 @@ import './globals.css'
 import { Navbar } from '@/components/Navbar'
 import { ProgressBarProvider } from '@/components/ProgressBarProvider'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { AlertCircle } from 'lucide-react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
@@ -58,17 +56,6 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ProgressBarProvider>
             <Navbar />
-
-            <div className="container">
-              <Alert className="mb-4">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Maintenance</AlertTitle>
-                <AlertDescription>
-                  This project is heavily under construction and not really production ready. The database is currently
-                  in maintenance mode and data is incomplete.
-                </AlertDescription>
-              </Alert>
-            </div>
 
             {children}
           </ProgressBarProvider>
