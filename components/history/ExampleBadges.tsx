@@ -16,7 +16,7 @@ export const ExampleBadges = async () => {
   repositories.sort((a, b) => b.name_with_owner.length - a.name_with_owner.length)
 
   return (
-    <div className="mb-8 flex flex-wrap gap-3">
+    <div className="mb-8 flex flex-wrap items-center gap-3">
       {repositories.map((repo) => (
         <Link
           href={{ query: { repository: repo.name_with_owner } }}

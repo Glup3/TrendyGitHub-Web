@@ -39,7 +39,7 @@ export const RepoInput = ({ initialText }: { initialText: string | undefined }) 
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="my-4 flex flex-col gap-2 sm:flex-row">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="mb-4 mt-2 flex flex-col gap-2 sm:flex-row">
         <FormField
           control={form.control}
           name="repository"
@@ -52,7 +52,7 @@ export const RepoInput = ({ initialText }: { initialText: string | undefined }) 
             </FormItem>
           )}
         />
-        <Button type="submit">View star history</Button>
+        <Button type="submit">View Star History</Button>
       </form>
     </Form>
   )

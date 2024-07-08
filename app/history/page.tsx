@@ -38,9 +38,17 @@ export default async function HistoryPage({ searchParams }: Props) {
 
   return (
     <main className="container">
-      <h1 className="text-3xl font-bold">Star History</h1>
+      <div className="flex flex-col gap-2">
+        <h1 className="text-4xl font-bold tracking-[-0.02em]">Star History</h1>
+        <p className="leading-loose">
+          Visualize how the star count of any GitHub repository changes over time with our linear chart. Simply enter
+          the repository name or paste the full URL into the input bar to get started.
+        </p>
+      </div>
 
       <RepoInput initialText={search.repository} />
+
+      <h2 className="mb-2 text-sm font-semibold">Popular Repositories</h2>
 
       <Suspense>
         <ExampleBadges />
@@ -64,7 +72,7 @@ export default async function HistoryPage({ searchParams }: Props) {
               rel="noopener noreferrer"
               className="break-all font-semibold text-primary hover:underline"
             >
-              <h2 className="text-2xl font-bold">{search.repository}</h2>
+              <h3 className="text-2xl font-bold">{search.repository}</h3>
             </a>
           </div>
 
