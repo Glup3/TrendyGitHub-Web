@@ -1,5 +1,6 @@
 import { StatisticsWidget } from '@/components/StatisticsWidget'
 import { StarDistributionChart } from '@/components/statistics/StarDistributionChart'
+import { StarsBarChart } from '@/components/statistics/StarsBarChart'
 import { db } from '@/db/client'
 import { type Timeframe, getPageStats } from '@/lib/umami'
 import { getFlag } from '@/lib/unleash'
@@ -85,12 +86,9 @@ export default async function StatisticsPage() {
           title="Average Stars"
           value={statistics.avgStarCount.toLocaleString('en-US', { maximumFractionDigits: 2 })}
         />
-
-        <div className="col-span-full h-72 rounded-2xl border-2 p-3">
-          <span className="mb-2 block">Star Count Distribution</span>
-          <StarDistributionChart data={statistics.starCountDistribution} />
-        </div>
       </div>
+
+      <StarsBarChart data={statistics.starCountDistribution} />
 
       <h2 className="my-4 text-2xl font-bold">Missing Star History</h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
