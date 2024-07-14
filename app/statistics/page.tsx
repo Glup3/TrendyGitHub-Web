@@ -1,5 +1,4 @@
 import { StatisticsWidget } from '@/components/StatisticsWidget'
-import { StarDistributionChart } from '@/components/statistics/StarDistributionChart'
 import { StarsBarChart } from '@/components/statistics/StarsBarChart'
 import { db } from '@/db/client'
 import { type Timeframe, getPageStats } from '@/lib/umami'

@@ -1,8 +1,7 @@
 import { ExampleBadges } from '@/components/history/ExampleBadges'
 import { RepoInput } from '@/components/history/RepoInput'
-import { StarHistoryChart } from '@/components/history/StarHistoryChart'
+import { StarLineChart } from '@/components/history/StarLineChart'
 import { db } from '@/db/client'
-import Image from 'next/image'
 import { Suspense } from 'react'
 import { z } from 'zod'
 
@@ -56,30 +55,11 @@ export default async function HistoryPage({ searchParams }: Props) {
 
       {!search.repository ? null : result.length > 0 ? (
         <div>
-          <div className="mb-6 flex items-center gap-2">
-            <Image
-              src={`https://github.com/${search.repository.split('/')[0]}.png`}
-              alt={`GitHub User Logo ${search.repository}`}
-              width="0"
-              height="0"
-              className="size-8 rounded"
-              unoptimized
-            />
-
-            <a
-              href={`https://github.com/${search.repository}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="break-all font-semibold text-primary hover:underline"
-            >
-              <h3 className="text-2xl font-bold">{search.repository}</h3>
-            </a>
-          </div>
-
           <div className="aspect-video w-full">
-            <StarHistoryChart
+            <StarLineChart
               lineColor={language?.hexcolor ?? '#64748B'}
-              data={result.map((r) => ({ date: r.created_at.getTime(), repo: r.star_count }))}
+              repositoryName={search.repository}
+              data={result.map((r) => ({ date: r.created_at, count: r.star_count }))}
             />
           </div>
         </div>
