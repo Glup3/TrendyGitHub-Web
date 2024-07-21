@@ -7,8 +7,8 @@ import React from 'react'
 const pages: { name: string; href: string }[] = [
   { name: 'Trending', href: '/' },
   { name: 'Star History', href: '/history' },
-  { name: 'Ranking', href: '/ranking' },
-  { name: 'Statistics', href: '/statistics' },
+  // { name: 'Ranking', href: '/ranking' },
+  // { name: 'Statistics', href: '/statistics' },
 ]
 
 export const Navbar = () => {
