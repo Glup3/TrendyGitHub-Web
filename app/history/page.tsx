@@ -66,23 +66,23 @@ export default async function HistoryPage({ searchParams }: Props) {
         <ExampleBadges />
       </Suspense>
 
-      {!search.repository ? null : result.length > 0 ? (
-        <div>
-          <div className="aspect-video w-full">
-            <StarLineChart
-              lineColor={language?.hexcolor ?? '#64748B'}
-              repositoryName={search.repository}
-              data={result.map((r) => ({ date: r.created_at, count: r.star_count }))}
-            />
-          </div>
-        </div>
-      ) : (
-        <div>
+      {search.repository && result.length === 0 && (
+        <div className="mb-4">
           <h2 className="mb-2 hyphens-auto text-2xl font-bold">Repository &quot;{search.repository}&quot; Not Found</h2>
           <p>
             We couldn&apos;t locate the repository you searched for. It might be spelled incorrectly or currently
             unavailable. Please try again with a different name.
           </p>
+        </div>
+      )}
+
+      {search.repository && result.length > 0 && (
+        <div>
+          <StarLineChart
+            lineColor={language?.hexcolor ?? '#64748B'}
+            repositoryName={search.repository}
+            data={result.map((r) => ({ date: r.created_at, count: r.star_count }))}
+          />
         </div>
       )}
     </main>
