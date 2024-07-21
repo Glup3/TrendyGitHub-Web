@@ -1,4 +1,5 @@
 import './globals.css'
+import { Footer } from '@/components/Footer'
 import { Navbar } from '@/components/Navbar'
 import { ProgressBarProvider } from '@/components/ProgressBarProvider'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -59,6 +60,8 @@ export default function RootLayout({
             <Navbar />
 
             {children}
+
+            <Footer />
           </ProgressBarProvider>
         </ThemeProvider>
       </body>

@@ -31,6 +31,17 @@ export const Navbar = () => {
             ))}
 
             <li>
+              <a
+                href="https://github.com/Glup3/TrendyGitHub-Web"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary"
+              >
+                GitHub
+              </a>
+            </li>
+
+            <li>
               <ModeToggle />
             </li>
           </ul>
