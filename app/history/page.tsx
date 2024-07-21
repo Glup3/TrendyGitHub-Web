@@ -2,6 +2,7 @@ import { ExampleBadges } from '@/components/history/ExampleBadges'
 import { RepoInput } from '@/components/history/RepoInput'
 import { StarLineChart } from '@/components/history/StarLineChart'
 import { db } from '@/db/client'
+import { type Metadata } from 'next'
 import { Suspense } from 'react'
 import { z } from 'zod'
 
@@ -11,6 +12,18 @@ const searchSchema = z.object({
 
 type Props = {
   searchParams: Record<string, string | string[] | undefined>
+}
+
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const search = searchSchema.parse(props.searchParams)
+  const repoName = search.repository ?? ''
+
+  return {
+    title: `Star History ${repoName}`,
+    description:
+      'Track the star history of any GitHub repository with our interactive tool. Simply enter the repository name or URL to visualize the star count trends over time. Stay updated with the latest popular repositories and analyze their growth patterns effortlessly. Perfect for developers, analysts, and tech enthusiasts!',
+  }
 }
 
 export default async function HistoryPage({ searchParams }: Props) {
