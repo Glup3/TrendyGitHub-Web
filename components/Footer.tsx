@@ -5,7 +5,12 @@ export const Footer = () => {
     <footer className="p-4 text-center">
       <p>
         Made by{' '}
-        <a className="text-primary hover:underline" href="https://github.com/Glup3">
+        <a
+          className="text-primary hover:underline"
+          href="https://github.com/Glup3"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Glup3
         </a>{' '}
         and powered by Ditto.
