@@ -4,7 +4,7 @@ import { Pool } from 'pg'
 
 export interface Database {
   repositories: RepositoriesTable
-  stars_history: StarsHistoryTable
+  stars_history_hyper: StarsHistoryTable
   languages: LanguagesTable
   mv_daily_stars: HistoryView
   mv_weekly_stars: HistoryView
@@ -25,8 +25,7 @@ export interface StarsHistoryTable {
   id: number
   repository_id: number
   star_count: number
-  created_at: Date
-  updated_at: Date
+  date: Date
 }
 
 export interface RepositoriesTable {

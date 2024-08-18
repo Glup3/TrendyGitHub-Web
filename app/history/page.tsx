@@ -32,11 +32,11 @@ export default async function HistoryPage({ searchParams }: Props) {
   const result = search.repository
     ? await db
         .selectFrom('repositories as r')
-        .innerJoin('stars_history as h', 'h.repository_id', 'r.id')
-        .select(['r.name_with_owner', 'r.id', 'h.star_count', 'h.created_at', 'primary_language'])
+        .innerJoin('stars_history_hyper as h', 'h.repository_id', 'r.id')
+        .select(['r.name_with_owner', 'r.id', 'h.star_count', 'h.date', 'primary_language'])
         .where('r.name_with_owner', '=', search.repository)
         .orderBy('r.name_with_owner')
-        .orderBy('h.created_at')
+        .orderBy('h.date')
         .execute()
     : []
 
@@ -81,7 +81,7 @@ export default async function HistoryPage({ searchParams }: Props) {
           <StarLineChart
             lineColor={language?.hexcolor ?? '#64748B'}
             repositoryName={search.repository}
-            data={result.map((r) => ({ date: r.created_at, count: r.star_count }))}
+            data={result.map((r) => ({ date: r.date, count: r.star_count }))}
           />
         </div>
       )}

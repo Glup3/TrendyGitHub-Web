@@ -51,11 +51,11 @@ export const getTotalStarsRankingQuery = async (table: HistoryTable, language: s
 
 export const getMonthlyStarHistories = (repoIds: number[]) => {
   return db
-    .selectFrom('stars_history')
-    .select(['repository_id', 'star_count', 'created_at'])
-    .where('created_at', '>=', sql<Date>`(CURRENT_TIMESTAMP AT TIME ZONE 'UTC') - INTERVAL '1 month'`)
+    .selectFrom('stars_history_hyper')
+    .select(['repository_id', 'star_count', 'date'])
+    .where('date', '>=', sql<Date>`(CURRENT_TIMESTAMP AT TIME ZONE 'UTC') - INTERVAL '1 month'`)
     .where('repository_id', 'in', repoIds)
-    .orderBy('created_at asc')
+    .orderBy('date asc')
 }
 
 export const getAllLanguages = cache(async () => {

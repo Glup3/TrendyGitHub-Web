@@ -204,7 +204,7 @@ async function getHistories(repoIds: number[]) {
 
     const repoHistory = repoMap.get(id)
     if (repoHistory) {
-      repoHistory.push({ date: starHistory.created_at, starCount: starHistory.star_count })
+      repoHistory.push({ date: starHistory.date, starCount: starHistory.star_count })
     }
   }
 
