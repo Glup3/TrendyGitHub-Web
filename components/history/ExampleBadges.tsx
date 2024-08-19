@@ -8,6 +8,8 @@ export const ExampleBadges = async () => {
     .selectFrom('trend_weekly')
     .innerJoin('repositories', 'repositories.id', 'trend_weekly.repository_id')
     .select(['name_with_owner'])
+    .orderBy('stars_diff', 'desc')
+    .orderBy('repository_id')
     .limit(10)
     .execute()
 

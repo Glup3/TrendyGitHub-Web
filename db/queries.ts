@@ -19,6 +19,8 @@ export const getStarsRankingQuery = (vars: { table: TrendView; perPage: number; 
       'repositories.description',
       'stars_diff',
     ])
+    .orderBy('stars_diff', 'desc')
+    .orderBy('repository_id')
     .limit(vars.perPage)
     .offset(vars.offset)
 
