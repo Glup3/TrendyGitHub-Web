@@ -78,13 +78,12 @@ export default async function Home({ searchParams }: Props) {
 
 function viewToTable(view: z.infer<typeof viewSchema>) {
   switch (view) {
-    case 'daily':
-      return 'mv_daily_stars'
     case 'weekly':
-      return 'mv_weekly_stars'
+      return 'trend_weekly'
     case 'monthly':
-      return 'mv_monthly_stars'
+      return 'trend_monthly'
+    case 'daily':
     default:
-      return 'mv_daily_stars'
+      return 'trend_daily'
   }
 }

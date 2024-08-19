@@ -3,17 +3,12 @@ import { DEFAULT_LANGUAGE } from '@/lib/schemas'
 import { sql } from 'kysely'
 import { cache } from 'react'
 
-export type HistoryTable = 'mv_daily_stars' | 'mv_weekly_stars' | 'mv_monthly_stars'
+export type TrendView = 'trend_daily' | 'trend_weekly' | 'trend_monthly'
 
-export const getStarsRankingQuery = (vars: {
-  table: HistoryTable
-  perPage: number
-  offset: number
-  language: string
-}) => {
+export const getStarsRankingQuery = (vars: { table: TrendView; perPage: number; offset: number; language: string }) => {
   let query = db
-    .selectFrom(`${vars.table} as mv_stars_history`)
-    .innerJoin('repositories', 'repositories.id', 'mv_stars_history.repository_id')
+    .selectFrom(`${vars.table} as trend_view`)
+    .innerJoin('repositories', 'repositories.id', 'trend_view.repository_id')
     .select([
       'id',
       'github_id',
@@ -22,10 +17,8 @@ export const getStarsRankingQuery = (vars: {
       'fork_count',
       'primary_language',
       'repositories.description',
-      'stars_difference',
+      'stars_diff',
     ])
-    .orderBy('stars_difference', 'desc')
-    .orderBy('repository_id')
     .limit(vars.perPage)
     .offset(vars.offset)
 
@@ -36,10 +29,10 @@ export const getStarsRankingQuery = (vars: {
   return query
 }
 
-export const getTotalStarsRankingQuery = async (table: HistoryTable, language: string) => {
+export const getTotalStarsRankingQuery = async (table: TrendView, language: string) => {
   let query = db
-    .selectFrom(`${table} as mv_stars_history`)
-    .innerJoin('repositories', 'repositories.id', 'mv_stars_history.repository_id')
+    .selectFrom(`${table} as trend_view`)
+    .innerJoin('repositories', 'repositories.id', 'trend_view.repository_id')
     .select(({ fn }) => [fn.countAll<number>().as('total')])
 
   if (language !== DEFAULT_LANGUAGE) {

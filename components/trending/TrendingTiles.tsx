@@ -16,7 +16,7 @@ type Repo = {
   star_count: number
   fork_count: number
   primary_language: string
-  stars_difference: number
+  stars_diff: number
   description: string | undefined
 }
 
@@ -26,7 +26,7 @@ const fetchRepositories = async (params: {
   language: string
   view: string
 }): Promise<Repo[]> => {
-  const TTL = 45 * 60
+  const TTL_MINUTES = 60 * 5
   const key = `trends:${params.view}:lang:${params.language}:page:${params.page}`
 
   if (await redis.exists(key)) {
@@ -48,7 +48,7 @@ const fetchRepositories = async (params: {
     })
 
     await redis.hset(key, hashData)
-    await redis.expire(key, TTL)
+    await redis.expire(key, TTL_MINUTES)
   }
 
   return repositories
@@ -150,7 +150,7 @@ export const TrendingTiles = async ({ page, pageSize, language, view }: Props) =
                   </Tooltip>
                 </TooltipProvider>
                 <Triangle className="inline-block" size={12} />
-                <NumberTicker key={`ticker-${repo.github_id}-${view}`} value={repo.stars_difference} />
+                <NumberTicker key={`ticker-${repo.github_id}-${view}`} value={repo.stars_diff} />
                 stars {viewToText(view)}
               </div>
             </div>
@@ -213,25 +213,27 @@ async function getHistories(repoIds: number[]) {
 
 function viewToTable(view: string) {
   switch (view) {
-    case 'daily':
-      return 'mv_daily_stars'
     case 'weekly':
-      return 'mv_weekly_stars'
+      return 'trend_weekly'
+
     case 'monthly':
-      return 'mv_monthly_stars'
+      return 'trend_monthly'
+
+    case 'daily':
     default:
-      return 'mv_daily_stars'
+      return 'trend_daily'
   }
 }
 
 function viewToText(view: string) {
   switch (view) {
-    case 'daily':
-      return 'today'
     case 'weekly':
       return 'this week'
+
     case 'monthly':
       return 'this month'
+
+    case 'daily':
     default:
       return 'today'
   }

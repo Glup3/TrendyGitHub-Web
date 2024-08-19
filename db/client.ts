@@ -6,9 +6,9 @@ export interface Database {
   repositories: RepositoriesTable
   stars_history_hyper: StarsHistoryTable
   languages: LanguagesTable
-  mv_daily_stars: HistoryView
-  mv_weekly_stars: HistoryView
-  mv_monthly_stars: HistoryView
+  trend_daily: TrendView
+  trend_weekly: TrendView
+  trend_monthly: TrendView
 }
 
 export interface LanguagesTable {
@@ -16,9 +16,11 @@ export interface LanguagesTable {
   hexcolor: string
 }
 
-export interface HistoryView {
+export interface TrendView {
   repository_id: number
-  stars_difference: number
+  first: number
+  last: number
+  stars_diff: number
 }
 
 export interface StarsHistoryTable {

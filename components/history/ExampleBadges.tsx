@@ -5,11 +5,9 @@ import Link from 'next/link'
 
 export const ExampleBadges = async () => {
   const repositories = await db
-    .selectFrom('mv_weekly_stars')
-    .innerJoin('repositories', 'repositories.id', 'mv_weekly_stars.repository_id')
+    .selectFrom('trend_weekly')
+    .innerJoin('repositories', 'repositories.id', 'trend_weekly.repository_id')
     .select(['name_with_owner'])
-    .orderBy('stars_difference', 'desc')
-    .orderBy('repository_id')
     .limit(10)
     .execute()
 
