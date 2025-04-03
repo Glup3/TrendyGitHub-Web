@@ -1,6 +1,7 @@
 import env from '@/lib/env'
 import { Kysely, PostgresDialect, type Selectable } from 'kysely'
 import { Pool } from 'pg'
+import { dbConfig } from '@/lib/db-config'
 
 export interface Database {
   repositories: RepositoriesTable
@@ -48,6 +49,7 @@ export const db = new Kysely<Database>({
   dialect: new PostgresDialect({
     pool: new Pool({
       connectionString: env.DATABASE_URL,
+      ...dbConfig,
     }),
   }),
 })
