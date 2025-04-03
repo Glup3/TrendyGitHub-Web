@@ -5,10 +5,10 @@ import { TrendingTiles, TrendingTilesSkeleton } from '@/components/trending/Tren
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { getTotalStarsRankingQuery } from '@/db/queries'
-import { searchSchema, type viewSchema } from '@/lib/schemas'
+import { searchSchema } from '@/lib/schemas'
+import { viewToTable } from '@/lib/view-utils'
 import { SlidersHorizontal } from 'lucide-react'
 import { Suspense } from 'react'
-import { type z } from 'zod'
 
 const PAGE_SIZE = 50
 
@@ -74,16 +74,4 @@ export default async function Home({ searchParams }: Props) {
       </div>
     </div>
   )
-}
-
-function viewToTable(view: z.infer<typeof viewSchema>) {
-  switch (view) {
-    case 'weekly':
-      return 'trend_weekly'
-    case 'monthly':
-      return 'trend_monthly'
-    case 'daily':
-    default:
-      return 'trend_daily'
-  }
 }

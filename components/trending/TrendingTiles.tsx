@@ -5,6 +5,7 @@ import { Skeleton } from '../ui/skeleton'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { getAllLanguages, getMonthlyStarHistories, getStarsRankingQuery } from '@/db/queries'
 import { redis } from '@/lib/redis'
+import { type ViewType, viewToTable, viewToText } from '@/lib/view-utils'
 import { GitFork, SearchX, Star, Triangle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,7 +25,7 @@ const fetchRepositories = async (params: {
   page: number
   pageSize: number
   language: string
-  view: string
+  view: ViewType
 }): Promise<Repo[]> => {
   const TTL_MINUTES = 60 * 5
   const key = `trends:${params.view}:lang:${params.language}:page:${params.page}`
@@ -58,7 +59,7 @@ type Props = {
   page: number // 1-based index
   pageSize: number
   language: string
-  view: string
+  view: ViewType
 }
 
 export const TrendingTiles = async ({ page, pageSize, language, view }: Props) => {
@@ -209,32 +210,4 @@ async function getHistories(repoIds: number[]) {
   }
 
   return repoMap
-}
-
-function viewToTable(view: string) {
-  switch (view) {
-    case 'weekly':
-      return 'trend_weekly'
-
-    case 'monthly':
-      return 'trend_monthly'
-
-    case 'daily':
-    default:
-      return 'trend_daily'
-  }
-}
-
-function viewToText(view: string) {
-  switch (view) {
-    case 'weekly':
-      return 'this week'
-
-    case 'monthly':
-      return 'this month'
-
-    case 'daily':
-    default:
-      return 'today'
-  }
 }
